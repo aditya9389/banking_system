@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/banking_system.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Controller/AccountController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AuthResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Model/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Model/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Repository/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/JwtFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/AccountsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/AccountsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "aditya9389"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/aditya9389/banking_system.git",
+    "accountId": "8df3033f-2895-4df4-a6ea-62a1f849c301"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2uE4ky2MA34cdYjyBKI8s6G7A0n" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AccountsApplication.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="" />
+      <created>1741800547936</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1741800547936</updated>
+    </task>
+    <servers />
+  </component>
+</project>
