@@ -46,10 +46,7 @@ This is a microservices-based banking system built using **Spring Boot**. The sy
 ### Running Services
 1. Clone the repositories:
    ```sh
-   git clone <account-service-repo>
-   git clone <cards-service-repo>
-   git clone <transaction-service-repo>
-   git clone <api-gateway-repo>
+   git clone https://github.com/aditya9389/banking_system
    ```
 2. Configure MySQL database in `application.properties` for each service.
 3. Run services:
