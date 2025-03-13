@@ -1,5 +1,7 @@
 package com.banking.system.Accounts.Controller;
 
+import com.banking.system.Accounts.Dto.AuthResponse;
+import com.banking.system.Accounts.Dto.LoginCred;
 import com.banking.system.Accounts.Model.Account;
 import com.banking.system.Accounts.Model.User;
 import com.banking.system.Accounts.Services.AccountServices;
@@ -21,11 +23,26 @@ public class AccountController {
 
     private AccountServices accountServices;
 
-    @PostMapping(value = "/createUser",consumes = "application/json;character=UTF-8")
+    @PostMapping("/createUser")
     public ResponseEntity<User> createAccount(@RequestBody User user)
     {
-        log.info("--------entered into create user mapping-------");
+        log.info("--------entered into create user mapping in Account controller-------");
         return ResponseEntity.ok(accountServices.createUser(user));
+    }
+
+    @PostMapping("/userLogin")
+    public ResponseEntity<AuthResponse> userLogin(@RequestBody LoginCred loginCred)
+    {
+        log.info("-----into user login mapping in Account controller-----");
+        return ResponseEntity.ok(accountServices.userLogin(loginCred));
+    }
+
+
+    @PostMapping("/createAccount")
+    public ResponseEntity<Account> createAcccount(@RequestBody Account account)
+    {
+        log.info("-----into create Account mapping in Account controller-----");
+        return ResponseEntity.ok(accountServices.createAccount(account));
     }
 
 }

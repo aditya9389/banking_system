@@ -21,10 +21,9 @@ import java.io.IOException;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private JwtUtil jwtutil;
+    private final JwtUtil jwtutil;
     @Autowired
     private UserRepository userRepository;
 
@@ -50,6 +49,5 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         Chain.doFilter(request,response);
-
     }
 }
