@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="" />
+    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Controller/AccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/main.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

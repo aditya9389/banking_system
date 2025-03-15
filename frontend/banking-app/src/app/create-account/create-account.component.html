@@ -1,0 +1,25 @@
+<div class="container">
+    <h2>Create New Account</h2>
+    <form (submit)="onCreateAccount($event)">
+      <div class="input-group">
+        <label>Initial Deposit:</label>
+        <input type="number" name="balance" [(ngModel)]="accountData.balance" required placeholder="Enter initial deposit" />
+      </div>
+  
+      <div class="input-group">
+        <label>Account Type:</label>
+        <select name="accountType" [(ngModel)]="accountData.accountType" required title="Select Account Type">
+          <option value="SAVINGS">Savings</option>
+          <option value="CURRENT">Current</option>
+        </select>
+      </div>
+  
+      <div class="input-group">
+        <label>User ID:</label>
+        <input type="number" name="userId" [(ngModel)]="accountData.userId" required placeholder="Enter User ID" />
+      </div>
+  
+      <button type="submit" class="btn">Create Account</button>
+    </form>
+    <p *ngIf="message">{{ message }}</p>
+</div>

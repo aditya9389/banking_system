@@ -9,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class AuthResponse {
     private String token;
-    public AuthResponse(String token)
+    private String role;
+    public AuthResponse(String token,String role)
     {
         log.info("-----into AuthResponse class to create token response dto-----");
         this.token=token;
+        this.role=role;
     }
 }

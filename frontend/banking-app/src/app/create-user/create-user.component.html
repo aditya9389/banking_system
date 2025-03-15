@@ -1,0 +1,30 @@
+<div class="container">
+    <h2>Create New User</h2>
+    <form (submit)="onCreateUser($event)">
+      <div class="input-group">
+        <label>Username:</label>
+        <input type="text" name="username" [(ngModel)]="userData.username" required title="Enter your username" placeholder="Username" />
+      </div>
+  
+      <div class="input-group">
+        <label>Password:</label>
+        <input type="password" name="password" [(ngModel)]="userData.password" required placeholder="Password"/>
+      </div>
+  
+      <div class="input-group">
+        <label>Role:</label>
+        <select name="role" [(ngModel)]="userData.role" required title="Select your role">
+          <option value="ADMIN">Admin</option>
+          <option value="USER">User</option>
+        </select>
+      </div>
+  
+      <div class="input-group">
+        <label>Phone Number:</label>
+        <input type="text" name="phoneNumber" [(ngModel)]="userData.phoneNumber" required title="Enter your phone number" placeholder="Phone Number" />
+      </div>
+  
+      <button type="submit" class="btn">Create User</button>
+    </form>
+    <p *ngIf="message">{{ message }}</p>
+</div>

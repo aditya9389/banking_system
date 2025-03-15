@@ -44,7 +44,7 @@ public class AccountServices {
         {
             log.info("-----password matches-----");
             String token= jwtUtil.generateToken(loginCred.getUsername(),user.getRole().name());
-            return new AuthResponse(token);
+            return new AuthResponse(token,user.getRole().name());
         }
         throw new RuntimeException("cred didn't matched");
     }
