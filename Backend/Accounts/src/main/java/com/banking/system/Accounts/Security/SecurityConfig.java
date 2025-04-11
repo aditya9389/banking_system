@@ -1,8 +1,8 @@
 package com.banking.system.Accounts.Security;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,45 +18,50 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
     private final JwtFilter jwtFilter;
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        System.out.println("------------returning new BcryptPasswordEncoder in SecurityConfig----------");
+        logger.info("Initializing BCryptPasswordEncoder");
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("------------into securityFilterChain method of SecurityConfig----------");
+        logger.info("Setting up Security Filter Chain...");
+
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers( "/Account/userLogin").permitAll()
-                        .requestMatchers("/createUser","/createAccount").hasRole("ADMIN")
+                        .requestMatchers("/Account/createUser","/createAccount", "/getUsers").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
+        logger.info("Security Filter Chain configured successfully.");
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        System.out.println("------------into corsConfigurationSourse method of Security method who returns allowed sources----------");
+        logger.info("Configuring CORS settings...");
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+
+        logger.info("CORS configuration applied successfully.");
         return source;
     }
 }

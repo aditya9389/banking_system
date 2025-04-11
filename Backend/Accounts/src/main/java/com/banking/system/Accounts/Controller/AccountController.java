@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/Account")
@@ -41,6 +43,13 @@ public class AccountController {
     {
         log.info("-----into create Account mapping in Account controller-----");
         return ResponseEntity.ok(accountServices.createAccount(account));
+    }
+
+    @PostMapping("/getUsers")
+    public ResponseEntity<List<User>> getUsers()
+    {
+        log.info("-----into get users mapping-----");
+        return ResponseEntity.ok(accountServices.getUsers());
     }
 
 }

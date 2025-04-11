@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.banking.system.Accounts.Dto.LoginCred;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -54,5 +56,15 @@ public class AccountServices {
         return accountRepository.save(account);
     }
 
+    public List<User> getUsers() {
+        log.info("Fetching all users from the database...");
 
+        List<User> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            log.warn("No users found in the database.");
+        } else {
+            log.info("Total users fetched: {}", users.size());
+        }
+        return users;
+    }
 }

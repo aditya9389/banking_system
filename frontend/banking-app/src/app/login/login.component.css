@@ -35,10 +35,10 @@
   
   /* Login button */
   .login-btn {
-    width: 100%;
+    width: 106%;
     background: #ffcc00;
     color: #000;
-    padding: 12px;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     font-size: 18px;
