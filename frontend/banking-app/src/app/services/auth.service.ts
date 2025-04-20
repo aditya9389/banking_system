@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  private tokenKey = 'RandomToken';  // Key to store token
+  private tokenKey = 'RandomToken';  // Key to store the token in local storage
   constructor(private http:HttpClient) {}
 
   saveToken(token: string): void {
