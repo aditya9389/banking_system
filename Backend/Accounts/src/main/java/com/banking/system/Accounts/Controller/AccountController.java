@@ -1,13 +1,12 @@
 package com.banking.system.Accounts.Controller;
 
-import com.banking.system.Accounts.Dto.AuthResponse;
-import com.banking.system.Accounts.Dto.LoginCred;
+
 import com.banking.system.Accounts.Model.Account;
-import com.banking.system.Accounts.Model.User;
 import com.banking.system.Accounts.Services.AccountServices;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,33 +22,19 @@ public class AccountController {
 
     private AccountServices accountServices;
 
-    @PostMapping("/createUser")
-    public ResponseEntity<User> createAccount(@RequestBody User user)
-    {
-        log.info("--------entered into create user mapping in Account controller-------");
-        return ResponseEntity.ok(accountServices.createUser(user));
-    }
-
-    @PostMapping("/userLogin")
-    public ResponseEntity<AuthResponse> userLogin(@RequestBody LoginCred loginCred)
-    {
-        log.info("-----into user login mapping in Account controller-----");
-        return ResponseEntity.ok(accountServices.userLogin(loginCred));
-    }
-
-
     @PostMapping("/createAccount")
     public ResponseEntity<Account> createAcccount(@RequestBody Account account)
     {
         log.info("-----into create Account mapping in Account controller-----");
         return ResponseEntity.ok(accountServices.createAccount(account));
     }
-
-    @PostMapping("/getUsers")
-    public ResponseEntity<List<User>> getUsers()
+    @PostMapping("/getAccounts")
+    public ResponseEntity<List<Account>> getAccounts(Authentication authentication)
     {
-        log.info("-----into get users mapping-----");
-        return ResponseEntity.ok(accountServices.getUsers());
+        String name=authentication.getName();
+        log.info("----in getting account mapping-----");
+        return ResponseEntity.ok(accountServices.getAllAccounts(name));
     }
+
 
 }

@@ -56,7 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
             UserDetails userDetails = org.springframework.security.core.userdetails.User
                     .withUsername(username)
                     .password("")
-                    .roles(user.getRole().name()) // Ensure role is correctly assigned
+                    .roles(user.getRole().name())
                     .build();
 
             UsernamePasswordAuthenticationToken authentication =

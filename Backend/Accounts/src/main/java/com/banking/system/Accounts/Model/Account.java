@@ -15,6 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
+
     @Id
     @SequenceGenerator(name="seq",initialValue = 100000001)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq")
