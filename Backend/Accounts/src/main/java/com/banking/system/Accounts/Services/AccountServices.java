@@ -1,6 +1,8 @@
 package com.banking.system.Accounts.Services;
 
+import com.banking.system.Accounts.Dto.AccountBalanceResponse;
 import com.banking.system.Accounts.Dto.AuthResponse;
+import com.banking.system.Accounts.Dto.UserAccountsResponse;
 import com.banking.system.Accounts.Model.Account;
 import com.banking.system.Accounts.Model.User;
 import com.banking.system.Accounts.Repository.AccountRepository;
@@ -34,7 +36,7 @@ public class AccountServices {
         return accountRepository.save(account);
     }
 
-    public List<Account> getMyAllAccounts(String name) {
+    public UserAccountsResponse getMyAllAccounts(String name) {
         log.info("-----[getAllAccounts] Fetching all accounts for name: {}-----", name);
 
         User user = userRepository.findByUsername(name)
@@ -47,10 +49,11 @@ public class AccountServices {
 
         List<Account> accounts = accountRepository.findByUser(user);
         log.info("-----[getAllAccounts] Total accounts found: {} for name : {}-----", accounts.size(), name);
-        return accounts;
+
+        return new UserAccountsResponse(accounts, accounts.size());
     }
 
-    public Double getMyBalance(String username, Long id) {
+    public AccountBalanceResponse getMyBalance(String username, Long id) {
         log.info("----- Entered getMyBalance method for username: {} and account ID: {} -----", username, id);
 
         Account account = accountRepository.findById(id)
@@ -70,14 +73,16 @@ public class AccountServices {
         }
 
         log.info("-----Balance for account ID: {} is {}", id, account.getBalance());
-        return account.getBalance();
+
+
+        return new AccountBalanceResponse(account.getBalance(),accountUser,account.getAccountType());
     }
 
-    public Double getUserAccountBalance(Long id)
+    public AccountBalanceResponse getUserAccountBalance(Long id)
     {
         Account account= accountRepository.findById(id)
                 .orElseThrow(()->new UsernameNotFoundException("no account found with this id"));
-        return account.getBalance();
+        return new AccountBalanceResponse(account.getBalance(),account.getUser().getUsername(), account.getAccountType());
     }
 
 

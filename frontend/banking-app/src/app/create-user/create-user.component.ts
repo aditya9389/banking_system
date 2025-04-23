@@ -25,7 +25,7 @@ export class CreateUserComponent {
 
     console.log("----[CREATE USER] Form Submission Triggered----");
 
-    // ✅ Step 1: Retrieve JWT token
+
     const token = this.authService.getToken();
     if (!token) {
       console.error("----[ERROR] No authentication token found. User might not be logged in.----");
@@ -34,16 +34,13 @@ export class CreateUserComponent {
     }
     console.log(`----[TOKEN RETRIEVED] Bearer ${token}----`);
 
-    // ✅ Step 2: Set Headers
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     console.log("----[HEADERS SET] Authorization header added----");
 
-    // ✅ Step 3: Log Request Data
     console.log("----[SENDING REQUEST] Data being sent to backend:");
     console.table(this.userData);
 
-    // ✅ Step 4: Make API Call
-    this.http.post('http://localhost:8081/Account/createUser', this.userData, { headers })
+    this.http.post('http://localhost:8081/User/createUser', this.userData, { headers })
       .subscribe({
         next: (response) => {
           console.log("----[SUCCESS] User Created Successfully!----");

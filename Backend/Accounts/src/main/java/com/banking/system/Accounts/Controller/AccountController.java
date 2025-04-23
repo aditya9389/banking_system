@@ -1,6 +1,8 @@
 package com.banking.system.Accounts.Controller;
 
 
+import com.banking.system.Accounts.Dto.AccountBalanceResponse;
+import com.banking.system.Accounts.Dto.UserAccountsResponse;
 import com.banking.system.Accounts.Model.Account;
 import com.banking.system.Accounts.Services.AccountServices;
 import lombok.AllArgsConstructor;
@@ -27,7 +29,7 @@ public class AccountController {
     }
 
     @GetMapping("/getMyAccounts")
-    public ResponseEntity<List<Account>> getMyAccounts(Authentication authentication)
+    public ResponseEntity<UserAccountsResponse> getMyAccounts(Authentication authentication)
     {
         String name=authentication.getName();
         log.info("----in getting account mapping-----");
@@ -35,14 +37,14 @@ public class AccountController {
     }
 
     @GetMapping("/getUserAccounts/{username}")
-    public ResponseEntity<List<Account>> getUserAccounts(@PathVariable String username)
+    public ResponseEntity<UserAccountsResponse> getUserAccounts(@PathVariable String username)
     {
         log.info("----into user accounts details mapping----");
         return ResponseEntity.ok(accountServices.getMyAllAccounts(username));
     }
 
     @GetMapping("/getMyAccountBalance/{id}")
-    public ResponseEntity<Double> getMyAccountBalance(@PathVariable Long id,Authentication authentication)
+    public ResponseEntity<AccountBalanceResponse> getMyAccountBalance(@PathVariable Long id,Authentication authentication)
     {
         String username= authentication.getName();
         log.info("-----into getMyAccountBalance api------ ");
@@ -50,7 +52,7 @@ public class AccountController {
     }
 
     @GetMapping("/getUserAccountBalance/{id}")
-    public ResponseEntity<Double> getUserAccountBalance(@PathVariable Long id)
+    public ResponseEntity<AccountBalanceResponse> getUserAccountBalance(@PathVariable Long id)
     {
         log.info("----into getUserAccountBalance api mapping----");
         return ResponseEntity.ok(accountServices.getUserAccountBalance(id));

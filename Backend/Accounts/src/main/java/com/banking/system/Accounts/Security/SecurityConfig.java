@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 "/User/createUser"
                                 ,"/Account/createAccount"
                                 , "/User/getUsers"
-                                ,"/Account/getUserAccounts")
+                                ,"/Account/getUserAccounts"
+                        ,"/Account/getUserAccountBalance")
                         .hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )

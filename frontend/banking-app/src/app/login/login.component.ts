@@ -24,7 +24,7 @@ export class LoginComponent {
     event.preventDefault();
     console.log(`[LoginComponent] - Attempting login with username: ${this.loginData.username}`);
 
-    this.http.post<{ token: string, role: string }>('http://localhost:8081/Account/userLogin', this.loginData).subscribe({
+    this.http.post<{ token: string, role: string }>('http://localhost:8081/User/userLogin', this.loginData).subscribe({
       next: (response) => {
         console.log('[LoginComponent] - Login successful, received token:', response.token);
         this.authService.saveToken(response.token);
