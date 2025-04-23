@@ -26,7 +26,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private final UserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+
         log.info("----- Into doFilterInternalMethod of JwtFilter -----");
 
         String authHeader = request.getHeader("Authorization");
@@ -45,25 +47,27 @@ public class JwtFilter extends OncePerRequestFilter {
             String username = jwtutil.extractUsername(token);
             log.info("Extracted Username from Token: {}", username);
 
-            Optional<User> userOptional = userRepository.findByUsername(username);
-            if (userOptional.isEmpty()) {
-                log.warn("User not found for username: {}", username);
-                chain.doFilter(request, response);
-                return;
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                Optional<User> userOptional = userRepository.findByUsername(username);
+                if (userOptional.isEmpty()) {
+                    log.warn("User not found for username: {}", username);
+                    chain.doFilter(request, response);
+                    return;
+                }
+
+                User user = userOptional.get();
+                UserDetails userDetails = org.springframework.security.core.userdetails.User
+                        .withUsername(username)
+                        .password("") // Unused
+                        .roles(user.getRole().name())
+                        .build();
+
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                log.info("Successfully authenticated user: {}", username);
             }
-
-            User user = userOptional.get();
-            UserDetails userDetails = org.springframework.security.core.userdetails.User
-                    .withUsername(username)
-                    .password("")
-                    .roles(user.getRole().name())
-                    .build();
-
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            log.info("Successfully authenticated user: {}", username);
 
         } catch (Exception e) {
             log.error("JWT authentication failed: {}", e.getMessage());

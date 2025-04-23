@@ -7,10 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,13 +25,35 @@ public class AccountController {
         log.info("-----into create Account mapping in Account controller-----");
         return ResponseEntity.ok(accountServices.createAccount(account));
     }
-    @PostMapping("/getAccounts")
-    public ResponseEntity<List<Account>> getAccounts(Authentication authentication)
+
+    @GetMapping("/getMyAccounts")
+    public ResponseEntity<List<Account>> getMyAccounts(Authentication authentication)
     {
         String name=authentication.getName();
         log.info("----in getting account mapping-----");
-        return ResponseEntity.ok(accountServices.getAllAccounts(name));
+        return ResponseEntity.ok(accountServices.getMyAllAccounts(name));
     }
 
+    @GetMapping("/getUserAccounts/{username}")
+    public ResponseEntity<List<Account>> getUserAccounts(@PathVariable String username)
+    {
+        log.info("----into user accounts details mapping----");
+        return ResponseEntity.ok(accountServices.getMyAllAccounts(username));
+    }
+
+    @GetMapping("/getMyAccountBalance/{id}")
+    public ResponseEntity<Double> getMyAccountBalance(@PathVariable Long id,Authentication authentication)
+    {
+        String username= authentication.getName();
+        log.info("-----into getMyAccountBalance api------ ");
+        return ResponseEntity.ok(accountServices.getMyBalance(username,id));
+    }
+
+    @GetMapping("/getUserAccountBalance/{id}")
+    public ResponseEntity<Double> getUserAccountBalance(@PathVariable Long id)
+    {
+        log.info("----into getUserAccountBalance api mapping----");
+        return ResponseEntity.ok(accountServices.getUserAccountBalance(id));
+    }
 
 }

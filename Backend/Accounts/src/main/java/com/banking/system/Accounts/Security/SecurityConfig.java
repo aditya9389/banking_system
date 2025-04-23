@@ -38,8 +38,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/Account/userLogin").permitAll()
-                        .requestMatchers("/Account/createUser","/createAccount", "/getUsers").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers( "/User/userLogin").permitAll()
+                        .requestMatchers(
+                                "/User/createUser"
+                                ,"/Account/createAccount"
+                                , "/User/getUsers"
+                                ,"/Account/getUserAccounts")
+                        .hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
