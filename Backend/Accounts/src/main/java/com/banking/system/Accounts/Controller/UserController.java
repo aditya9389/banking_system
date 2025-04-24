@@ -7,10 +7,7 @@ import com.banking.system.Accounts.Services.UserServices;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,18 +33,18 @@ public class UserController {
         return ResponseEntity.ok(userServices.userLogin(loginCred));
     }
 
-    @PostMapping("/getUsers")
+    @GetMapping("/getUsers")
     public ResponseEntity<List<User>> getUsers()
     {
         log.info("-----into get users mapping-----");
         return ResponseEntity.ok(userServices.getUsers());
     }
 
-    @PostMapping("/getUser")
-    public ResponseEntity<User> getSingleUser(@RequestBody Long id)
+    @GetMapping("/getUser/{username}")
+    public ResponseEntity<User> getSingleUser(@PathVariable String username)
     {
         log.info("-----into get single user mapping-----");
-        return ResponseEntity.ok(userServices.getUser(id));
+        return ResponseEntity.ok(userServices.getUser(username));
     }
 
 }

@@ -1,0 +1,45 @@
+<div class="view-accounts-container">
+  <h2>🔍 View Account Details</h2>
+
+  <div class="search-section">
+    <input type="text" placeholder="Search by Account ID" [(ngModel)]="accountId" />
+    <button (click)="searchById()">Search by ID</button>
+
+    <input type="text" placeholder="Search by Username" [(ngModel)]="username" />
+    <button (click)="searchByUsername()">Search by Username</button>
+
+    <button class="reset-btn" (click)="reset()">Reset</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div *ngIf="singleAccount" class="account-card">
+    <h3>Account Details</h3>
+    <p><strong>Account ID:</strong> {{ singleAccount.accountId }}</p>
+    <p><strong>Account Type:</strong> {{ singleAccount.accountType }}</p>
+    <p><strong>Balance:</strong> ₹{{ singleAccount.balance }}</p>
+    <p><strong>Username:</strong> {{ singleAccount.username }}</p>
+  </div>
+
+  <div *ngIf="userAccounts.length > 0" class="accounts-list">
+    <h3>User's Accounts (Total: {{ totalAccounts }})</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Account ID</th>
+          <th>Account Type</th>
+          <th>Balance</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let acc of userAccounts">
+          <td>{{ acc.accountId }}</td>
+          <td>{{ acc.accountType }}</td>
+          <td>₹{{ acc.balance }}</td>
+          <td>{{ acc.username }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

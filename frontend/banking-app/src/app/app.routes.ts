@@ -5,6 +5,8 @@ import { UserDashboardComponent } from './user-dashboard/user-dashboard.componen
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { ViewUsersComponent } from './view-users/view-users.component';
+import { ViewAccountsComponent } from './view-accounts/view-accounts.component';
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'}, //default route
     {path: 'home', component: HomeComponent},
@@ -13,4 +15,6 @@ export const routes: Routes = [
     {path: 'admin-dashboard', component: AdminDashboardComponent},
     {path: 'create-account', component: CreateAccountComponent},
     {path: 'create-user', component: CreateUserComponent},
+    {path: 'view-users', component: ViewUsersComponent},
+    {path: 'view-accounts', component: ViewAccountsComponent},
 ];

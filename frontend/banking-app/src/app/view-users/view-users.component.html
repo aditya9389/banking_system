@@ -1,0 +1,32 @@
+<div class="users-container">
+  <h2>View Users</h2>
+
+  <!-- Search bar for filtering users -->
+  <div class="search-container">
+    <input type="text" [(ngModel)]="searchTerm" (input)="onSearch()" placeholder="Search for a user..." />
+  </div>
+
+  <!-- If there's an error message, display it -->
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+  <!-- Scrollable container for the user list -->
+  <div class="users-list">
+    <ul *ngIf="users && users.length > 0">
+      <li *ngFor="let user of users" (click)="getUserDetails(user.username)">
+        <span>{{ user.username }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Display user details if a user is selected -->
+  <div *ngIf="selectedUser" class="user-details">
+    <h3>User Details</h3>
+    <p><strong>Username:</strong> {{ selectedUser.username }}</p>
+    <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+    <p><strong>Phone Number:</strong> {{ selectedUser.phoneNumber }}</p>
+    <button (click)="resetSelection()">Back to All Users</button>
+  </div>
+
+  <!-- If no users found, display a message -->
+  <p *ngIf="users && users.length === 0">No users found.</p>
+</div>

@@ -1,0 +1,62 @@
+.users-container {
+  margin: 30px;
+  text-align: center;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  width: 200px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.users-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.users-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.users-list li {
+  cursor: pointer;
+  padding: 10px;
+  background-color: #f9f9f9;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.users-list li:hover {
+  background-color: #f1f1f1;
+}
+
+.user-details {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.error {
+  color: red;
+  font-size: 16px;
+}
+
+button {
+  background: #ffcc00;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #ffaa00;
+}

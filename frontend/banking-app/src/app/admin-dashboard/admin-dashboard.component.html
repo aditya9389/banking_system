@@ -1,12 +1,20 @@
 <div class="admin-container">
-    <h1>Welcome, Admin!</h1>
-    <p>Manage the banking system efficiently.</p>
-  
+  <h1 class="admin-title">Welcome, Admin!</h1>
+  <p class="admin-subtitle">Manage the banking system efficiently.</p>
+
+  <div class="admin-section">
+    <h2>🔧 Admin Actions</h2>
     <div class="admin-buttons">
-      <button (click)="navigateTo('create-user')">Create New User</button>
-      <button (click)="navigateTo('create-account')">Create New Account</button>
-      <button>View Users</button>
-      <button>View Transactions</button>
+      <button (click)="navigateTo('create-user')">👤 Create New User</button>
+      <button (click)="navigateTo('create-account')">🏦 Create New Account</button>
+      <button (click)="navigateTo('view-users')">👁️ View Users</button>
+      <button (click)="navigateTo('view-accounts')">📂 View Accounts</button>
+      <button (click)="navigateTo('cards')">💳 Manage Cards</button>
+      <button (click)="navigateTo('transactions')">📊 View Transactions</button>
     </div>
   </div>
-  
+
+  <div class="admin-section logout">
+    <button (click)="logout()" class="logout-button">🚪 Logout</button>
+  </div>
+</div>
