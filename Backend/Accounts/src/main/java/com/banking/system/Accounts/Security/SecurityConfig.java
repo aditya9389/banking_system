@@ -44,7 +44,9 @@ public class SecurityConfig {
                                 ,"/Account/createAccount"
                                 , "/User/getUsers"
                                 ,"/Account/getUserAccounts"
-                        ,"/Account/getUserAccountBalance")
+                        ,"/Account/getUserAccountBalance"
+                        ,"/Account/deleteAccount"
+                        ,"/User/deleteUser")
                         .hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )

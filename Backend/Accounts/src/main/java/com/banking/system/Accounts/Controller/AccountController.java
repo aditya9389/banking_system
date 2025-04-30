@@ -2,11 +2,16 @@ package com.banking.system.Accounts.Controller;
 
 
 import com.banking.system.Accounts.Dto.AccountBalanceResponse;
+import com.banking.system.Accounts.Dto.TransferReq;
+import com.banking.system.Accounts.Dto.TransferResponse;
 import com.banking.system.Accounts.Dto.UserAccountsResponse;
 import com.banking.system.Accounts.Model.Account;
+import com.banking.system.Accounts.Repository.AccountRepository;
 import com.banking.system.Accounts.Services.AccountServices;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +23,9 @@ import java.util.List;
 @RequestMapping("/Account")
 @AllArgsConstructor
 public class AccountController {
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     private AccountServices accountServices;
 
@@ -58,4 +66,22 @@ public class AccountController {
         return ResponseEntity.ok(accountServices.getUserAccountBalance(id));
     }
 
+    @DeleteMapping("/deleteAccount/{accountId}")
+    public ResponseEntity<String> deleteAccount(@PathVariable Long accountId) {
+        log.info("Attempting to delete account with ID: {}", accountId);
+        if (!accountRepository.existsById(accountId)) {
+            log.warn("Account with ID {} not found", accountId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        }
+        accountRepository.deleteById(accountId);
+        log.info("Deleted account with ID: {}", accountId);
+        return ResponseEntity.ok("Account deleted successfully");
+    }
+
+    @PostMapping("/transferFunds")
+    public ResponseEntity<TransferResponse> transferFunds(@RequestBody TransferReq transferRequest, Authentication authentication) {
+        log.info("----into transferFunds mapping----");
+        String name= authentication.getName();
+        return ResponseEntity.ok(accountServices.transferFunds(transferRequest,name));
+    }
 }

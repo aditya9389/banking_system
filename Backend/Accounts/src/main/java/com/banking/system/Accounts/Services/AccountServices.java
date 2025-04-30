@@ -1,8 +1,6 @@
 package com.banking.system.Accounts.Services;
 
-import com.banking.system.Accounts.Dto.AccountBalanceResponse;
-import com.banking.system.Accounts.Dto.AuthResponse;
-import com.banking.system.Accounts.Dto.UserAccountsResponse;
+import com.banking.system.Accounts.Dto.*;
 import com.banking.system.Accounts.Model.Account;
 import com.banking.system.Accounts.Model.User;
 import com.banking.system.Accounts.Repository.AccountRepository;
@@ -11,14 +9,16 @@ import com.banking.system.Accounts.Security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.banking.system.Accounts.Dto.LoginCred;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -83,6 +83,55 @@ public class AccountServices {
         Account account= accountRepository.findById(id)
                 .orElseThrow(()->new UsernameNotFoundException("no account found with this id"));
         return new AccountBalanceResponse(account.getBalance(),account.getUser().getUsername(), account.getAccountType());
+    }
+    public TransferResponse transferFunds(TransferReq transferReq,String sender)
+    {
+        log.info("---- Starting fund transfer ----");
+
+        Long fromAccountId = transferReq.getFromAccountId();
+        Long toAccountId = transferReq.getToAccountId();
+        Double amount = transferReq.getAmount();
+
+        log.info("Transfer request: From Account ID = {}, To Account ID = {}, Amount = {}, Initiated by = {}", fromAccountId, toAccountId, amount, sender);
+
+        TransferResponse transferResponse = new TransferResponse();
+        transferResponse.setAmount(amount);
+        transferResponse.setToAccountId(toAccountId);
+        transferResponse.setFromAccountId(fromAccountId);
+        transferResponse.setSenderUsername(sender);
+        transferResponse.setTimestamp();
+        transferResponse.setStatus("processing");
+
+        Account fromAccount = accountRepository.findById(fromAccountId).orElse(null);
+        Account toAccount = accountRepository.findById(toAccountId).orElse(null);
+
+        if (fromAccount == null || toAccount == null) {
+            log.warn("Transfer failed: Invalid account(s). FromAccount = {}, ToAccount = {}", fromAccount, toAccount);
+            transferResponse.setStatus("Failed due to incorrect accounts");
+            return transferResponse;
+        }
+
+        if (fromAccount.getBalance() < amount) {
+            log.warn("Transfer failed: Insufficient balance in account ID {}", fromAccountId);
+            transferResponse.setStatus("Failed due to less amount");
+            return transferResponse;
+        }
+
+        if (!Objects.equals(fromAccount.getUser().getUsername(), sender)) {
+            log.warn("Transfer failed: Unauthorized attempt by {}", sender);
+            transferResponse.setStatus("Failed due to unauthorized sender");
+            return transferResponse;
+        }
+
+        fromAccount.setBalance(fromAccount.getBalance() - amount);
+        toAccount.setBalance(toAccount.getBalance() + amount);
+
+        accountRepository.save(fromAccount);
+        accountRepository.save(toAccount);
+
+        log.info("Transfer success: {} transferred from Account ID {} to Account ID {}", amount, fromAccountId, toAccountId);
+        transferResponse.setStatus("Success");
+        return transferResponse;
     }
 
 
