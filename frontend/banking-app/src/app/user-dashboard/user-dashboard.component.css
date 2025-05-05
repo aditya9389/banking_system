@@ -70,3 +70,19 @@
     margin-bottom: 10px;
   }
   
+  /* Logout button at the bottom */
+  .logout-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+  

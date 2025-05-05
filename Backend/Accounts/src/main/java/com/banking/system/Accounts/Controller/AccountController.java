@@ -51,12 +51,12 @@ public class AccountController {
         return ResponseEntity.ok(accountServices.getMyAllAccounts(username));
     }
 
-    @GetMapping("/getMyAccountBalance/{id}")
-    public ResponseEntity<AccountBalanceResponse> getMyAccountBalance(@PathVariable Long id,Authentication authentication)
+    @GetMapping("/getMyAccountBalance/{accountId}")
+    public ResponseEntity<AccountBalanceResponse> getMyAccountBalance(@PathVariable Long accountId,Authentication authentication)
     {
         String username= authentication.getName();
         log.info("-----into getMyAccountBalance api------ ");
-        return ResponseEntity.ok(accountServices.getMyBalance(username,id));
+        return ResponseEntity.ok(accountServices.getMyBalance(username,accountId));
     }
 
     @GetMapping("/getUserAccountBalance/{id}")

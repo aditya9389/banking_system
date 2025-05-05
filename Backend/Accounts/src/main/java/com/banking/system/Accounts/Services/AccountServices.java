@@ -53,26 +53,26 @@ public class AccountServices {
         return new UserAccountsResponse(accounts, accounts.size());
     }
 
-    public AccountBalanceResponse getMyBalance(String username, Long id) {
-        log.info("----- Entered getMyBalance method for username: {} and account ID: {} -----", username, id);
+    public AccountBalanceResponse getMyBalance(String username, Long accountId) {
+        log.info("----- Entered getMyBalance method for username: {} and account ID: {} -----", username, accountId);
 
-        Account account = accountRepository.findById(id)
+        Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> {
-                    log.error("-----No account found with ID: {}", id);
+                    log.error("-----No account found with ID: {}", accountId);
                     return new UsernameNotFoundException("No account with this ID");
                 });
 
-        log.info("-----Account found with ID: {}. Account belongs to user: {}", id, account.getUser().getUsername());
+        log.info("-----Account found with ID: {}. Account belongs to user: {}", accountId, account.getUser().getUsername());
 
         String accountUser = account.getUser().getUsername();
 
         if (!accountUser.equals(username)) {
-            log.warn("-----User {} does not match account owner {} for account ID: {}", username, accountUser, id);
+            log.warn("-----User {} does not match account owner {} for account ID: {}", username, accountUser, accountId);
 
             throw new AccessDeniedException("-----User does not have access to this account");
         }
 
-        log.info("-----Balance for account ID: {} is {}", id, account.getBalance());
+        log.info("-----Balance for account ID: {} is {}", accountId, account.getBalance());
 
 
         return new AccountBalanceResponse(account.getBalance(),accountUser,account.getAccountType());

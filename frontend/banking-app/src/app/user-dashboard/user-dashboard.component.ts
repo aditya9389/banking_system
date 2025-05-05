@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -22,7 +24,7 @@ export class UserDashboardComponent {
   };
   transferStatus: string = '';
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService,private router:Router) {}
 
   ngOnInit() {
     this.username = this.authService.getUsernameFromToken();
@@ -48,6 +50,7 @@ export class UserDashboardComponent {
   }
 
   fetchBalance(accountId: number) {
+    console.log(`[UserDashboard] Fetching balance for account ID: ${accountId}`);
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
@@ -84,4 +87,9 @@ export class UserDashboardComponent {
       }
     });
   }
+  logout() {
+    this.authService.removeToken();
+    this.router.navigate(['/login']);
+  }
+  
 }
