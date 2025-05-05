@@ -1,1 +1,36 @@
-<p>user-dashboard works!</p>
+<!-- user-dashboard.component.html -->
+<div class="dashboard-container">
+  <h2 class="welcome">Welcome, {{ username }}</h2>
+
+  <div class="section">
+    <h3>Your Accounts</h3>
+    <button class="refresh-btn" (click)="fetchAccounts()">Refresh</button>
+    <ul *ngIf="accounts.length > 0; else noAccounts">
+      <li *ngFor="let account of accounts" (click)="fetchBalance(account.accountId)">
+        <div><strong>ID:</strong> {{ account.accountId }}</div>
+        <div><strong>Type:</strong> {{ account.accountType }}</div>
+        <div><strong>Balance:</strong> {{ balances[account.accountId] || 'Click to check' }}</div>
+      </li>
+    </ul>
+    <ng-template #noAccounts><p>No accounts found.</p></ng-template>
+  </div>
+
+  <div class="section">
+    <h3>Transfer Funds</h3>
+    <form (ngSubmit)="transferFunds()" #transferForm="ngForm">
+      <label>From Account:
+        <select [(ngModel)]="transferData.fromAccountId" name="from" required>
+          <option *ngFor="let acc of accounts" [value]="acc.accountId">{{ acc.accountId }}</option>
+        </select>
+      </label>
+      <label>To Account:
+        <input type="number" [(ngModel)]="transferData.toAccountId" name="to" required />
+      </label>
+      <label>Amount:
+        <input type="number" [(ngModel)]="transferData.amount" name="amount" required />
+      </label>
+      <button type="submit" [disabled]="!transferForm.valid">Transfer</button>
+    </form>
+    <p *ngIf="transferStatus">{{ transferStatus }}</p>
+  </div>
+</div>

@@ -55,7 +55,7 @@ export class ViewUsersComponent {
   }
 
   // Fetch the details of a specific user
-  getUserDetails(userId: string) {
+  getUserDetails(username: string) {
     const token = this.authService.getToken();
     if (!token) {
       this.errorMessage = 'Authorization token missing. Please log in again.';
@@ -64,7 +64,7 @@ export class ViewUsersComponent {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>(`http://localhost:8081/User/getUser/${userId}`, { headers }).subscribe({
+    this.http.get<any>(`http://localhost:8081/User/getUser/${username}`, { headers }).subscribe({
       next: (response) => {
         this.selectedUser = response; // Show selected user details
       },

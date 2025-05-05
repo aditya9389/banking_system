@@ -21,6 +21,7 @@
   <!-- Display user details if a user is selected -->
   <div *ngIf="selectedUser" class="user-details">
     <h3>User Details</h3>
+    <p><strong>UserId:</strong> {{ selectedUser.id }}</p>
     <p><strong>Username:</strong> {{ selectedUser.username }}</p>
     <p><strong>Role:</strong> {{ selectedUser.role }}</p>
     <p><strong>Phone Number:</strong> {{ selectedUser.phoneNumber }}</p>
