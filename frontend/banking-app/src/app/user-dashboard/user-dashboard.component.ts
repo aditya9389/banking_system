@@ -72,13 +72,37 @@ export class UserDashboardComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-
+  
     console.log('[UserDashboard] Initiating transfer:', this.transferData);
-
+  
     this.http.post<any>('http://localhost:8081/Account/transferFunds', this.transferData, { headers }).subscribe({
       next: (res) => {
         this.transferStatus = res.status;
         console.log('[UserDashboard] Transfer success:', res);
+  
+        // Prepare the transaction object to send to Transaction Microservice
+        const transactionData = {
+          fromAccountId: res.fromAccountId,
+          toAccountId: res.toAccountId,
+          amount: res.amount,
+          senderUsername: res.senderUsername,
+          timestamp: res.timestamp,
+          status: res.status
+        };
+  
+        console.log('[UserDashboard] Sending transaction to Transaction Microservice:', transactionData);
+  
+        // Save transaction in the Transaction Microservice
+        this.http.post<any>('http://localhost:8082/transactions/saveTransaction', transactionData, { headers })
+  .subscribe({
+    next: (response) => {
+      console.log('[UserDashboard] Transaction save response:', response.message);
+    },
+    error: (error) => {
+      console.error('[UserDashboard] Error saving transaction:', error.message);
+    }
+        });
+  
         this.fetchAccounts(); // Refresh account data
       },
       error: (err) => {
@@ -87,6 +111,7 @@ export class UserDashboardComponent {
       }
     });
   }
+  
   logout() {
     this.authService.removeToken();
     this.router.navigate(['/login']);
