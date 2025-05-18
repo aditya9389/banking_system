@@ -24,7 +24,7 @@ export class UserDashboardComponent {
   };
   transferStatus: string = '';
 
-  constructor(private http: HttpClient, private authService: AuthService,private router:Router) {}
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.username = this.authService.getUsernameFromToken();
@@ -72,15 +72,14 @@ export class UserDashboardComponent {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-  
+
     console.log('[UserDashboard] Initiating transfer:', this.transferData);
-  
+
     this.http.post<any>('http://localhost:8081/Account/transferFunds', this.transferData, { headers }).subscribe({
       next: (res) => {
         this.transferStatus = res.status;
         console.log('[UserDashboard] Transfer success:', res);
-  
-        // Prepare the transaction object to send to Transaction Microservice
+
         const transactionData = {
           fromAccountId: res.fromAccountId,
           toAccountId: res.toAccountId,
@@ -89,20 +88,19 @@ export class UserDashboardComponent {
           timestamp: res.timestamp,
           status: res.status
         };
-  
+
         console.log('[UserDashboard] Sending transaction to Transaction Microservice:', transactionData);
-  
-        // Save transaction in the Transaction Microservice
+
         this.http.post<any>('http://localhost:8082/transactions/saveTransaction', transactionData, { headers })
-  .subscribe({
-    next: (response) => {
-      console.log('[UserDashboard] Transaction save response:', response.message);
-    },
-    error: (error) => {
-      console.error('[UserDashboard] Error saving transaction:', error.message);
-    }
-        });
-  
+          .subscribe({
+            next: (response) => {
+              console.log('[UserDashboard] Transaction save response:', response.message);
+            },
+            error: (error) => {
+              console.error('[UserDashboard] Error saving transaction:', error.message);
+            }
+          });
+
         this.fetchAccounts(); // Refresh account data
       },
       error: (err) => {
@@ -111,10 +109,39 @@ export class UserDashboardComponent {
       }
     });
   }
-  
+
+  transactionHistory: any[] = [];
+  selectedAccountId: number | null = null;
+
+  TransactionHistory(accountId: number) {
+    if (this.selectedAccountId === accountId) {
+      // If the same account is clicked again, hide the transactions
+      this.selectedAccountId = null;
+      this.transactionHistory = [];
+      return;
+    }
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.authService.getToken()}`
+    });
+
+    this.http.get<any>(`http://localhost:8082/transactions/getTransactionHistory/${accountId}`, { headers })
+      .subscribe({
+        next: (res) => {
+          console.log('[UserDashboard] Transaction history:', res);
+          this.transactionHistory = res;
+          this.selectedAccountId = accountId;
+        },
+        error: (err) => {
+          console.error('[UserDashboard] Failed to fetch transaction history:', err);
+        }
+      });
+  }
+
+
   logout() {
     this.authService.removeToken();
     this.router.navigate(['/login']);
   }
-  
+
 }

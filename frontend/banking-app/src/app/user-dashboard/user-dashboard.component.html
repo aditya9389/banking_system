@@ -1,41 +1,61 @@
 <div class="dashboard-container">
-    <h2 class="welcome">Welcome, {{ username }}</h2>
-  
-    <div class="section">
-      <h3>Your Accounts</h3>
-      <button class="refresh-btn" (click)="fetchAccounts()">Refresh</button>
-      <ul *ngIf="accounts.length > 0; else noAccounts">
-        <li *ngFor="let account of accounts" (click)="fetchBalance(account.id)">
+  <h2 class="welcome">Welcome, {{ username }}</h2>
+
+  <!-- Account Section -->
+  <div class="section">
+    <h3>Your Accounts</h3>
+    <button class="refresh-btn" (click)="fetchAccounts()">Refresh</button>
+    <ul *ngIf="accounts.length > 0; else noAccounts">
+      <li *ngFor="let account of accounts" (click)="fetchBalance(account.id)">
+        <div class="account-details">
           <div><strong>ID:</strong> {{ account.id }}</div>
           <div><strong>Type:</strong> {{ account.accountType }}</div>
           <div><strong>Balance:</strong> {{ balances[account.id] || 'Click to check' }}</div>
-        </li>
-      </ul>
-      <ng-template #noAccounts><p>No accounts found.</p></ng-template>
-    </div>
-  
-    <div class="section">
-      <h3>Transfer Funds</h3>
-      <form (ngSubmit)="transferFunds()" #transferForm="ngForm">
-        <label>From Account:
-          <select [(ngModel)]="transferData.fromAccountId" name="from" required>
-            <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.id }}</option>
-          </select>
-        </label>
-        <label>To Account:
-          <input type="number" [(ngModel)]="transferData.toAccountId" name="to" required />
-        </label>
-        <label>Amount:
-          <input type="number" [(ngModel)]="transferData.amount" name="amount" required />
-        </label>
-        <button type="submit" [disabled]="!transferForm.valid">Transfer</button>
-      </form>
-      <p *ngIf="transferStatus">{{ transferStatus }}</p>
-    </div>
-  
-    <!-- Logout button positioned at the bottom -->
-    <div class="section">
-      <button class="logout-btn" (click)="logout()">Logout</button>
-    </div>
+          <button class="transaction-btn" (click)="TransactionHistory(account.id)">
+            {{ selectedAccountId === account.id ? 'Hide Transactions' : 'Show Transactions' }}
+          </button>
+        </div>
+
+        <!-- Transaction History -->
+        <div *ngIf="selectedAccountId === account.id">
+          <h4>Transaction History for Account {{ account.id }}</h4>
+          <ul class="transaction-list">
+            <li *ngFor="let transaction of transactionHistory">
+              <div><strong>From:</strong> {{ transaction.fromAccountId }}</div>
+              <div><strong>To:</strong> {{ transaction.toAccountId }}</div>
+              <div><strong>Amount:</strong> {{ transaction.amount }}</div>
+              <div><strong>Status:</strong> {{ transaction.status }}</div>
+              <div><strong>Date:</strong> {{ transaction.timestamp }}</div>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noAccounts><p>No accounts found.</p></ng-template>
   </div>
-  
+
+  <!-- Transfer Funds Section -->
+  <div class="section">
+    <h3>Transfer Funds</h3>
+    <form (ngSubmit)="transferFunds()" #transferForm="ngForm">
+      <label>From Account:
+        <select [(ngModel)]="transferData.fromAccountId" name="from" required>
+          <option *ngFor="let acc of accounts" [value]="acc.id">{{ acc.id }}</option>
+        </select>
+      </label>
+      <label>To Account:
+        <input type="number" [(ngModel)]="transferData.toAccountId" name="to" required />
+      </label>
+      <label>Amount:
+        <input type="number" [(ngModel)]="transferData.amount" name="amount" required />
+      </label>
+      <button type="submit" [disabled]="!transferForm.valid">Transfer</button>
+    </form>
+    <p *ngIf="transferStatus">{{ transferStatus }}</p>
+  </div>
+
+  <!-- Logout button positioned at the bottom -->
+  <div class="section">
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</div>

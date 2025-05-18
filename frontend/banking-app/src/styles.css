@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+
+body {
+  background-image: url('/banking_bg_1.png'); /* Or /banking_bg_1.avif if you want to try AVIF again */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* You can add other body styles here like default text color, font, etc. */
+}
+
+html {
+  height: 100%; /* Ensure html takes full height */
+}
+
+body {
+  min-height: 100%; /* Ensure body takes at least full height of viewport */
+  margin: 0; /* Remove default body margin */
+}

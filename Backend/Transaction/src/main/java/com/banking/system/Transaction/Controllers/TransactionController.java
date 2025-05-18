@@ -4,6 +4,7 @@ import com.banking.system.Transaction.Model.Tra_Entity;
 import com.banking.system.Transaction.Services.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/account/{accountId}")
+    @GetMapping("/getTransactionHistory/{accountId}")
     public ResponseEntity<List<Tra_Entity>> getTransactionsByAccount(@PathVariable Long accountId) {
         List<Tra_Entity> transactions = transactionService.getTransactionsByAccount(accountId);
         if (transactions.isEmpty()) {
@@ -50,7 +51,7 @@ public class TransactionController {
         String res=transactionService.saveTransaction(tra);
         Map<String, String> response = new HashMap<>();
         response.put("message", res);
-        return ResponseEntity.ok(response); // Respond with JSON instead of plain string
+        return ResponseEntity.ok(response);
     }
 
 

@@ -1,61 +1,66 @@
 /* Center the login box */
 .login-container {
-    width: 350px;
-    background: rgba(255, 255, 255, 0.1);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    margin: auto;
-    margin-top: 100px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Input fields */
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    margin-bottom: 15px;
-  }
-  
-  .input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .input-group input {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  /* Login button */
-  .login-btn {
-    width: 106%;
-    background: #ffcc00;
-    color: #000;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .login-btn:hover {
-    background: #ffaa00;
-    transform: scale(1.05);
-  }
-  
-  /* Error message */
-  .error-msg {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-  }
-  
+  width: 350px;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* More noticeable shadow for depth */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white border */
+}
+
+/* Input fields */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: -15px;
+  color: white; /* Ensure label text is visible on the blurred background */
+}
+
+.input-group input {
+  width: 94%;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Add a subtle border to input fields */
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque white background for inputs */
+  color: #333; /* Dark text for input */
+}
+
+/* Login button */
+.login-btn {
+  width: 100%; /* Adjusted to 100% to fit within the container with border */
+  background: #ffcc00;
+  color: #000;
+  padding: 12px; /* Slightly adjusted padding */
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for button */
+}
+
+.login-btn:hover {
+  background: #ffaa00;
+  transform: translateY(-2px); /* Subtle lift on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Error message */
+.error-msg {
+  color: #ff4d4d; /* A more noticeable red */
+  font-size: 14px;
+  margin-top: 10px;
+}

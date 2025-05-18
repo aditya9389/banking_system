@@ -17,49 +17,54 @@ body {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Center the text within the navbar */
 }
 
-/* Hero Section */
+/* Enhanced Hero Section */
 .hero {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60vh; /* Reduced height to remove extra space */
+  height: 55vh; /* Slightly adjusted height */
+  text-align: center; /* Ensure text is centered within the flex container */
 }
 
 .hero h2 {
-  font-size: 2.5rem; /* Slightly smaller heading */
-  font-weight: bold;
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-  margin-bottom: 5px; /* Reduced space below the heading */
+  font-family: 'Montserrat', sans-serif; /* More modern font */
+  font-size: 3rem; /* Slightly larger heading */
+  font-weight: 700; /* Bold weight */
+  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.4); /* More pronounced shadow */
+  margin-bottom: 10px;
+  letter-spacing: 0.5px; /* Subtle letter spacing */
 }
 
 .hero p {
-  max-width: 600px;
-  font-size: 18px;
-  opacity: 0.9;
-  margin-bottom: 15px; /* Reduced gap between subheading and login button */
+  max-width: 650px; /* Slightly wider paragraph */
+  font-size: 1.1rem; /* Slightly larger paragraph text */
+  opacity: 0.95; /* Slightly less transparent */
+  margin-bottom: 25px;
+  line-height: 1.6; /* Improved readability */
 }
 
-/* Login Button */
+/* Enhanced Login Button */
 .login-btn {
-  background: #ffcc00;
-  color: #000;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
+  background: linear-gradient(135deg, #ffea00, #ffc107); /* Subtle gradient */
+  color: #222; /* Darker text for better contrast */
+  padding: 14px 28px; /* Slightly larger padding */
+  border-radius: 10px; /* More rounded corners */
+  font-size: 1.1rem;
+  font-weight: 600; /* Semi-bold */
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   border: none;
-  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
-  margin-bottom: 20px; /* Reduced space between login button and features */
+  box-shadow: 0px 6px 15px rgba(255, 204, 0, 0.4); /* More pronounced shadow */
+  margin-bottom: 30px;
 }
 
 .login-btn:hover {
-  background: #ffaa00;
-  transform: scale(1.05);
+  transform: translateY(-2px); /* Slight lift on hover */
+  box-shadow: 0px 8px 18px rgba(255, 204, 0, 0.5);
 }
 
 /* Features Section */
