@@ -4,7 +4,6 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -17,6 +16,12 @@ export class UserDashboardComponent {
   username: string = '';
   accounts: any[] = [];
   balances: { [key: number]: string } = {};
+  transactionHistory: any[] = [];
+  selectedAccountId: number | null = null;
+
+  cardsByAccount: { [key: number]: any[] } = {};
+  selectedCardAccountId: number | null = null;
+
   transferData = {
     fromAccountId: 0,
     toAccountId: 0,
@@ -24,61 +29,72 @@ export class UserDashboardComponent {
   };
   transferStatus: string = '';
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.username = this.authService.getUsernameFromToken();
-    console.log('[UserDashboard] Logged in as:', this.username);
     this.fetchAccounts();
   }
 
   fetchAccounts() {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-
+    const headers = this.getAuthHeaders();
     this.http.get<any>('http://localhost:8081/Account/getMyAccounts', { headers }).subscribe({
-      next: (res) => {
-        this.accounts = res.accounts;
-        console.log('[UserDashboard] Accounts fetched:', this.accounts);
-      },
-      error: (err) => {
-        console.error('[UserDashboard] Failed to fetch accounts:', err);
-        this.accounts = [];
-      }
+      next: (res) => this.accounts = res.accounts,
+      error: () => this.accounts = []
     });
   }
 
   fetchBalance(accountId: number) {
-    console.log(`[UserDashboard] Fetching balance for account ID: ${accountId}`);
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-
+    const headers = this.getAuthHeaders();
     this.http.get<any>(`http://localhost:8081/Account/getMyAccountBalance/${accountId}`, { headers }).subscribe({
+      next: (res) => this.balances[accountId] = res.amount,
+      error: () => this.balances[accountId] = 'Error'
+    });
+  }
+
+  TransactionHistory(accountId: number) {
+    if (this.selectedAccountId === accountId) {
+      this.selectedAccountId = null;
+      this.transactionHistory = [];
+      return;
+    }
+
+    const headers = this.getAuthHeaders();
+    this.http.get<any>(`http://localhost:8082/transactions/getTransactionHistory/${accountId}`, { headers }).subscribe({
       next: (res) => {
-        this.balances[accountId] = res.amount;
-        console.log(`[UserDashboard] Balance for account ${accountId}: ${res.amount}`);
+        this.transactionHistory = res;
+        this.selectedAccountId = accountId;
       },
-      error: (err) => {
-        console.error(`[UserDashboard] Failed to fetch balance for account ${accountId}`, err);
-        this.balances[accountId] = 'Error';
+      error: () => console.error('[UserDashboard] Transaction history fetch failed')
+    });
+  }
+
+  toggleCards(accountId: number) {
+    if (this.selectedCardAccountId === accountId) {
+      this.selectedCardAccountId = null;
+      return;
+    }
+
+    const headers = this.getAuthHeaders();
+    this.http.get<any[]>(`http://localhost:8083/card/getCardsByAccount/${accountId}`, { headers }).subscribe({
+      next: (res) => {
+        this.cardsByAccount[accountId] = res;
+        this.selectedCardAccountId = accountId;
+      },
+      error: () => {
+        this.cardsByAccount[accountId] = [];
+        this.selectedCardAccountId = accountId;
       }
     });
   }
 
   transferFunds() {
     this.transferStatus = 'Processing...';
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.authService.getToken()}`
-    });
-
-    console.log('[UserDashboard] Initiating transfer:', this.transferData);
+    const headers = this.getAuthHeaders();
 
     this.http.post<any>('http://localhost:8081/Account/transferFunds', this.transferData, { headers }).subscribe({
       next: (res) => {
         this.transferStatus = res.status;
-        console.log('[UserDashboard] Transfer success:', res);
 
         const transactionData = {
           fromAccountId: res.fromAccountId,
@@ -89,59 +105,26 @@ export class UserDashboardComponent {
           status: res.status
         };
 
-        console.log('[UserDashboard] Sending transaction to Transaction Microservice:', transactionData);
-
         this.http.post<any>('http://localhost:8082/transactions/saveTransaction', transactionData, { headers })
           .subscribe({
-            next: (response) => {
-              console.log('[UserDashboard] Transaction save response:', response.message);
-            },
-            error: (error) => {
-              console.error('[UserDashboard] Error saving transaction:', error.message);
-            }
+            next: () => console.log('[UserDashboard] Transaction saved'),
+            error: () => console.error('[UserDashboard] Failed to save transaction')
           });
 
-        this.fetchAccounts(); // Refresh account data
+        this.fetchAccounts();
       },
-      error: (err) => {
-        this.transferStatus = 'Transfer Failed';
-        console.error('[UserDashboard] Transfer failed:', err);
-      }
+      error: () => this.transferStatus = 'Transfer Failed'
     });
   }
 
-  transactionHistory: any[] = [];
-  selectedAccountId: number | null = null;
-
-  TransactionHistory(accountId: number) {
-    if (this.selectedAccountId === accountId) {
-      // If the same account is clicked again, hide the transactions
-      this.selectedAccountId = null;
-      this.transactionHistory = [];
-      return;
-    }
-
-    const headers = new HttpHeaders({
+  getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
       'Authorization': `Bearer ${this.authService.getToken()}`
     });
-
-    this.http.get<any>(`http://localhost:8082/transactions/getTransactionHistory/${accountId}`, { headers })
-      .subscribe({
-        next: (res) => {
-          console.log('[UserDashboard] Transaction history:', res);
-          this.transactionHistory = res;
-          this.selectedAccountId = accountId;
-        },
-        error: (err) => {
-          console.error('[UserDashboard] Failed to fetch transaction history:', err);
-        }
-      });
   }
-
 
   logout() {
     this.authService.removeToken();
     this.router.navigate(['/login']);
   }
-
 }

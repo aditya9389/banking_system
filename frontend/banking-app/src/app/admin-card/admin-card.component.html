@@ -1,0 +1,54 @@
+<div class="dashboard-container">
+  <h2 class="welcome">Card Management</h2>
+
+  <!-- Search Section -->
+  <div class="section">
+    <h3>Search Cards by Account ID</h3>
+    <input type="number" placeholder="Enter Account ID" [(ngModel)]="accountId" />
+    <button class="refresh-btn" (click)="fetchCards()">Search</button>
+  </div>
+
+  <!-- Card List -->
+  <div class="section" *ngIf="cards.length > 0">
+    <h3>Existing Cards</h3>
+    <ul>
+      <li *ngFor="let card of cards">
+  <div><strong>Card Number:</strong> {{ card.cardNumber }}</div>
+  <div><strong>Type:</strong> {{ card.cardType }}</div>
+  <div><strong>Limit/Balance:</strong> ₹{{ card.limitOrBalance }}</div>
+  <div><strong>Expiry:</strong> {{ card.expiryDate }}</div>
+  <div><strong>Status:</strong> {{ card.isActive ? 'Active' : 'Deactivated' }}</div>
+
+  <button *ngIf="card.isActive" (click)="deactivateCard(card.id)">Deactivate</button>
+</li>
+    </ul>
+  </div>
+
+  <!-- No cards or no result -->
+  <div class="section" *ngIf="cards.length === 0 && searched">
+    <p>No cards found for Account ID {{ accountId }}.</p>
+  </div>
+
+  <!-- Create Card -->
+  <div class="section">
+    <h3>Create New Card</h3>
+    <form (ngSubmit)="createCard()" #cardForm="ngForm">
+      <label>Username
+        <input type="text" name="username" [(ngModel)]="newCard.username" required />
+      </label>
+      <label>Account ID
+        <input type="number" name="accountId" [(ngModel)]="newCard.accountId" required />
+      </label>
+      <label>Card Type
+        <select name="cardType" [(ngModel)]="newCard.cardType" required>
+          <option value="CREDIT">Credit</option>
+          <option value="DEBIT">Debit</option>
+        </select>
+      </label>
+      <label>Limit or Balance
+        <input type="number" name="limitOrBalance" [(ngModel)]="newCard.limitOrBalance" required />
+      </label>
+      <button type="submit">Create Card</button>
+    </form>
+  </div>
+</div>

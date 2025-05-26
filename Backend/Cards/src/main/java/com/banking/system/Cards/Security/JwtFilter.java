@@ -45,8 +45,8 @@ public class JwtFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = org.springframework.security.core.userdetails.User
                         .withUsername(username)
-                        .password("") // No password needed since this is just setting up roles
-                        .roles("USER") // You can adjust the roles if needed
+                        .password("")
+                        .roles("USER")
                         .build();
 
                 UsernamePasswordAuthenticationToken authentication =

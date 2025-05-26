@@ -14,6 +14,9 @@
           <button class="transaction-btn" (click)="TransactionHistory(account.id)">
             {{ selectedAccountId === account.id ? 'Hide Transactions' : 'Show Transactions' }}
           </button>
+          <button class="card-btn" (click)="toggleCards(account.id)">
+            {{ selectedCardAccountId === account.id ? 'Hide Cards' : 'Show Cards' }}
+          </button>
         </div>
 
         <!-- Transaction History -->
@@ -23,11 +26,27 @@
             <li *ngFor="let transaction of transactionHistory">
               <div><strong>From:</strong> {{ transaction.fromAccountId }}</div>
               <div><strong>To:</strong> {{ transaction.toAccountId }}</div>
-              <div><strong>Amount:</strong> {{ transaction.amount }}</div>
+              <div><strong>Amount:</strong> ₹{{ transaction.amount }}</div>
               <div><strong>Status:</strong> {{ transaction.status }}</div>
               <div><strong>Date:</strong> {{ transaction.timestamp }}</div>
             </li>
           </ul>
+        </div>
+
+        <!-- Card Display -->
+        <div *ngIf="selectedCardAccountId === account.id">
+          <h4>Cards for Account {{ account.id }}</h4>
+          <ul class="transaction-list">
+            <li *ngFor="let card of cardsByAccount[account.id]">
+              <div><strong>Card Number:</strong> {{ card.cardNumber }}</div>
+              <div><strong>Type:</strong> {{ card.cardType }}</div>
+              <div><strong>CVV:</strong> {{ card.cvv }}</div>
+              <div><strong>Expiry:</strong> {{ card.expiryDate }}</div>
+              <div><strong>Limit:</strong> ₹{{ card.limitOrBalance }}</div>
+              <div><strong>Status:</strong> {{ card.isActive ? 'Active' : 'Inactive' }}</div>
+            </li>
+          </ul>
+          <p *ngIf="cardsByAccount[account.id]?.length === 0">No cards found for this account.</p>
         </div>
       </li>
     </ul>
@@ -54,7 +73,6 @@
     <p *ngIf="transferStatus">{{ transferStatus }}</p>
   </div>
 
-  <!-- Logout button positioned at the bottom -->
   <div class="section">
     <button class="logout-btn" (click)="logout()">Logout</button>
   </div>

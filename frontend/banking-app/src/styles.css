@@ -1,18 +1,18 @@
 /* styles.css */
 
-body {
-  background-image: url('/banking_bg_1.png'); /* Or /banking_bg_1.avif if you want to try AVIF again */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  /* You can add other body styles here like default text color, font, etc. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-html {
-  height: 100%; /* Ensure html takes full height */
-}
-
+/* Make background image fill the entire scrollable page */
 body {
-  min-height: 100%; /* Ensure body takes at least full height of viewport */
-  margin: 0; /* Remove default body margin */
+  background-image: url('/banking_bg_2.png');
+  background-repeat: repeat-y; /* Repeat vertically */
+  background-size: cover; /* or use "100% auto" for width fit */
+  background-attachment: fixed; /* Makes the background scroll with content */
+  background-position: center top;
+  color: #333;
+  font-family: Arial, sans-serif;
 }

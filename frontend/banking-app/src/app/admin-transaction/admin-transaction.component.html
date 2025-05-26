@@ -1,0 +1,35 @@
+<div class="admin-transactions-container">
+  <h2>🔍 Admin - View Transaction History</h2>
+
+  <div class="search-section">
+    <label for="accountId">Enter Account ID:</label>
+    <input type="number" [(ngModel)]="accountId" id="accountId" placeholder="e.g. 100000123" />
+    <button (click)="fetchTransactions()">Search</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <div *ngIf="transactions.length > 0" class="transactions-table">
+    <h3>Transaction History</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of transactions">
+          <td>{{ tx.fromAccountId }}</td>
+          <td>{{ tx.toAccountId }}</td>
+          <td>₹{{ tx.amount }}</td>
+          <td>{{ tx.status }}</td>
+          <td>{{ tx.timestamp }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -33,8 +33,6 @@ li {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -69,6 +67,8 @@ button {
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s ease;
 }
 
 button:hover {
@@ -78,84 +78,22 @@ button:hover {
 .refresh-btn {
   background-color: #27ae60;
   margin-bottom: 10px;
-  color: white;
 }
 
 .refresh-btn:hover {
   background-color: #219150;
 }
 
-.logout-btn {
-  background-color: #e74c3c;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 15px;
-}
-
-.logout-btn:hover {
-  background-color: #c0392b;
-}
-
 .transaction-btn {
   background-color: #8e44ad;
-  color: white;
-  padding: 6px;
-  margin-top: 5px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
+  margin-top: 10px;
 }
 
 .transaction-btn:hover {
   background-color: #732d91;
 }
 
-.card-btn {
-  background-color: #16a085;
-  color: white;
-  border: none;
-  padding: 8px;
-  margin-top: 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.card-btn:hover {
-  background-color: #13856c;
-}
-
-.transaction-list {
-  list-style-type: none;
-  margin-top: 10px;
-  padding: 0;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-.transaction-list li {
-  background-color: white;
-  margin-bottom: 8px;
-  padding: 10px;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5px;
-}
-
-.transaction-list li div {
-  margin-bottom: 5px;
-}
-
 @media (max-width: 600px) {
-  .transaction-list li {
-    grid-template-columns: 1fr;
-  }
-
   .account-details {
     gap: 2px;
   }

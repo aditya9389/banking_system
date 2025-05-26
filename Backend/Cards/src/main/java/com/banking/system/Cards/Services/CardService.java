@@ -67,4 +67,20 @@ public class CardService {
         log.info("----[CardService] Card with ID {} deactivated successfully----", cardId);
         return "Card deactivated successfully";
     }
+    public String deleteAllCards(Long accountId) {
+        log.info("----[CardService] Deleting all cards for Account ID: {}----", accountId);
+
+        List<Card> cardsToDelete = cardRepository.findByAccountId(accountId);
+
+        if (cardsToDelete.isEmpty()) {
+            log.warn("----[CardService] No cards found for Account ID: {}. Nothing to delete.----", accountId);
+            return "No cards found for the given account.";
+        }
+
+        cardRepository.deleteAll(cardsToDelete);
+        log.info("----[CardService] Deleted {} card(s) for Account ID: {}----", cardsToDelete.size(), accountId);
+
+        return "All cards deleted successfully for account ID: " + accountId;
+    }
+
 }

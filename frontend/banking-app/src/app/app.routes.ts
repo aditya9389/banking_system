@@ -7,6 +7,8 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ViewUsersComponent } from './view-users/view-users.component';
 import { ViewAccountsComponent } from './view-accounts/view-accounts.component';
+import { AdminCardComponent } from './admin-card/admin-card.component';
+import { AdminTransactionComponent } from './admin-transaction/admin-transaction.component';
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'}, //default route
     {path: 'home', component: HomeComponent},
@@ -17,4 +19,6 @@ export const routes: Routes = [
     {path: 'create-user', component: CreateUserComponent},
     {path: 'view-users', component: ViewUsersComponent},
     {path: 'view-accounts', component: ViewAccountsComponent},
+    {path: 'admin-card', component: AdminCardComponent},
+    {path: 'admin-transaction', component: AdminTransactionComponent}
 ];
