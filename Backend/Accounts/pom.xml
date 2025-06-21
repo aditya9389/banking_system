@@ -73,7 +73,6 @@
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
-			<version>3.1.0</version>
 		</dependency>
 
 		<!-- JJWT Core (Main JWT Library) -->
@@ -134,6 +133,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+    <finalName>accounts</finalName>
 	</build>
 
 </project>

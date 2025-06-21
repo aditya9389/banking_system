@@ -1,9 +1,9 @@
 spring:
   application:
-    name: Cards
+    name: Transaction
 
   datasource:
-    url: jdbc:mysql://localhost:3306/babnk_db
+    url: jdbc:mysql://mysql:3306/bank_db
     username: root
     password: Adii@9389
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,4 +18,4 @@ spring:
     show-sql: true
 
 server:
-  port: 8083
+  port: 8082

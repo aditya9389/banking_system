@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-create-user',
   imports: [FormsModule,CommonModule],
@@ -40,7 +42,7 @@ export class CreateUserComponent {
     console.log("----[SENDING REQUEST] Data being sent to backend:");
     console.table(this.userData);
 
-    this.http.post('http://localhost:8081/User/createUser', this.userData, { headers })
+    this.http.post(`${environment.accountsApi}/User/createUser`, this.userData, { headers })
       .subscribe({
         next: (response) => {
           console.log("----[SUCCESS] User Created Successfully!----");

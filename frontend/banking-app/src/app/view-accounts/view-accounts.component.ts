@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-view-accounts',
@@ -48,7 +49,7 @@ export class ViewAccountsComponent {
     console.log(`----[FETCHING ACCOUNT] Account ID: ${this.accountId} ----`);
 
     this.http.get<any>(
-      `http://localhost:8081/Account/getUserAccountBalance/${this.accountId}`,
+      `${environment.accountsApi}/Account/getUserAccountBalance/${this.accountId}`,
       { headers: this.getTokenHeaders() }
     ).subscribe({
       next: (response) => {
@@ -87,7 +88,7 @@ export class ViewAccountsComponent {
     console.log(`----[FETCHING ACCOUNTS] Username: ${this.username} ----`);
 
     this.http.get<any>(
-      `http://localhost:8081/Account/getUserAccounts/${this.username}`,
+      `${environment.accountsApi}/Account/getUserAccounts/${this.username}`,
       { headers: this.getTokenHeaders() }
     ).subscribe({
       next: (response) => {

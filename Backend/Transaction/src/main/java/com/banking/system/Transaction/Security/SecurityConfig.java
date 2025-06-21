@@ -44,9 +44,20 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         logger.info("Configuring CORS settings...");
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+
+        // In dev or docker, these are expected frontend origins
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:4200", // Angular dev server
+            "http://localhost"       // Docker nginx serving Angular app
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
+        configuration.setAllowedHeaders(List.of(
+            "Authorization", 
+            "Content-Type", 
+            "Access-Control-Allow-Origin", 
+            "Accept"
+        ));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

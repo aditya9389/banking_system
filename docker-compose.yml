@@ -1,0 +1,79 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: Adii@9389
+      MYSQL_DATABASE: bank_db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - banknet
+
+
+  accounts:
+    build:
+      context: ./Backend/Accounts
+      dockerfile: Dockerfile
+    container_name: accounts-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mysql
+    networks:
+      - banknet
+
+  transactions:
+    build:
+      context: ./Backend/Transaction
+      dockerfile: Dockerfile
+    container_name: transactions-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mysql
+    networks:
+      - banknet
+
+  cards:
+    build:
+      context: ./Backend/Cards
+      dockerfile: Dockerfile
+    container_name: cards-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - mysql
+    networks:
+      - banknet
+
+  frontend:
+    build:
+      context: ./frontend/banking-app
+      dockerfile: Dockerfile
+    container_name: banking-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - accounts
+      - transactions
+      - cards
+    networks:
+      - banknet
+
+volumes:
+  mysql-data:
+
+networks:
+  banknet:
+    driver: bridge

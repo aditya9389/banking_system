@@ -35,23 +35,22 @@ public class SecurityConfig {
         logger.info("Setting up Security Filter Chain...");
 
         http
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers( "/User/userLogin").permitAll()
-                        .requestMatchers(
-                                "/User/createUser"
-                                ,"/Account/createAccount"
-                                , "/User/getUsers"
-                                ,"/Account/getUserAccounts"
-                        ,"/Account/getUserAccountBalance"
-                        ,"/Account/deleteAccount"
-                        ,"/User/deleteUser")
-                        .hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/User/userLogin", "/User/createUser").permitAll()
+                .requestMatchers(
+                    "/Account/createAccount",
+                    "/User/getUsers",
+                    "/Account/getUserAccounts",
+                    "/Account/getUserAccountBalance",
+                    "/Account/deleteAccount",
+                    "/User/deleteUser"
+                ).hasAuthority("ROLE_ADMIN")
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         logger.info("Security Filter Chain configured successfully.");
         return http.build();
@@ -61,9 +60,20 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         logger.info("Configuring CORS settings...");
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+
+        // In dev or docker, these are expected frontend origins
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:4200", // Angular dev server
+            "http://localhost"       // Docker nginx serving Angular app
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Access-Control-Allow-Origin"));
+        configuration.setAllowedHeaders(List.of(
+            "Authorization", 
+            "Content-Type", 
+            "Access-Control-Allow-Origin", 
+            "Accept"
+        ));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

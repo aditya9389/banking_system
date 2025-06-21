@@ -3,7 +3,7 @@ spring:
     name: Transaction
 
   datasource:
-    url: jdbc:mysql://localhost:3306/transactions
+    url: jdbc:mysql://localhost:3306/bank_db
     username: root
     password: Adii@9389
     driver-class-name: com.mysql.cj.jdbc.Driver

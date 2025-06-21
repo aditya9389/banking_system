@@ -85,6 +85,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>transactions</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

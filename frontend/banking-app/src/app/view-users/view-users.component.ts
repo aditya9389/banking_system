@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-view-users',
   imports: [FormsModule, CommonModule],
@@ -32,7 +34,7 @@ export class ViewUsersComponent {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any[]>('http://localhost:8081/User/getUsers', { headers }).subscribe({
+    this.http.get<any[]>(`${environment.accountsApi}/User/getUsers`, { headers }).subscribe({
       next: (response) => {
         this.users = response; // Assigning the full list of users
       },
@@ -64,7 +66,7 @@ export class ViewUsersComponent {
 
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
-    this.http.get<any>(`http://localhost:8081/User/getUser/${username}`, { headers }).subscribe({
+    this.http.get<any>(`${environment.accountsApi}/User/getUser/${username}`, { headers }).subscribe({
       next: (response) => {
         this.selectedUser = response; // Show selected user details
       },

@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -38,7 +39,7 @@ export class UserDashboardComponent {
 
   fetchAccounts() {
     const headers = this.getAuthHeaders();
-    this.http.get<any>('http://localhost:8081/Account/getMyAccounts', { headers }).subscribe({
+    this.http.get<any>(`${environment.accountsApi}/Account/getMyAccounts`, { headers }).subscribe({
       next: (res) => this.accounts = res.accounts,
       error: () => this.accounts = []
     });
@@ -46,7 +47,7 @@ export class UserDashboardComponent {
 
   fetchBalance(accountId: number) {
     const headers = this.getAuthHeaders();
-    this.http.get<any>(`http://localhost:8081/Account/getMyAccountBalance/${accountId}`, { headers }).subscribe({
+    this.http.get<any>(`${environment.accountsApi}/Account/getMyAccountBalance/${accountId}`, { headers }).subscribe({
       next: (res) => this.balances[accountId] = res.amount,
       error: () => this.balances[accountId] = 'Error'
     });
@@ -60,7 +61,7 @@ export class UserDashboardComponent {
     }
 
     const headers = this.getAuthHeaders();
-    this.http.get<any>(`http://localhost:8082/transactions/getTransactionHistory/${accountId}`, { headers }).subscribe({
+    this.http.get<any>(`${environment.transactionsApi}/transactions/getTransactionHistory/${accountId}`, { headers }).subscribe({
       next: (res) => {
         this.transactionHistory = res;
         this.selectedAccountId = accountId;
@@ -76,7 +77,7 @@ export class UserDashboardComponent {
     }
 
     const headers = this.getAuthHeaders();
-    this.http.get<any[]>(`http://localhost:8083/card/getCardsByAccount/${accountId}`, { headers }).subscribe({
+    this.http.get<any[]>(`${environment.cardsApi}/card/getCardsByAccount/${accountId}`, { headers }).subscribe({
       next: (res) => {
         this.cardsByAccount[accountId] = res;
         this.selectedCardAccountId = accountId;
@@ -92,7 +93,7 @@ export class UserDashboardComponent {
     this.transferStatus = 'Processing...';
     const headers = this.getAuthHeaders();
 
-    this.http.post<any>('http://localhost:8081/Account/transferFunds', this.transferData, { headers }).subscribe({
+    this.http.post<any>(`${environment.accountsApi}/Account/transferFunds`, this.transferData, { headers }).subscribe({
       next: (res) => {
         this.transferStatus = res.status;
 
@@ -105,7 +106,7 @@ export class UserDashboardComponent {
           status: res.status
         };
 
-        this.http.post<any>('http://localhost:8082/transactions/saveTransaction', transactionData, { headers })
+        this.http.post<any>(`${environment.transactionsApi}/transactions/saveTransaction`, transactionData, { headers })
           .subscribe({
             next: () => console.log('[UserDashboard] Transaction saved'),
             error: () => console.error('[UserDashboard] Failed to save transaction')

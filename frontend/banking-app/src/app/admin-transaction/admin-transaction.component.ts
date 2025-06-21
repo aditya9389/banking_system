@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-admin-transaction',
@@ -33,7 +34,7 @@ export class AdminTransactionComponent {
 
     const headers = this.getAuthHeaders();
 
-    this.http.get<any[]>(`http://localhost:8082/transactions/getTransactionHistory/${this.accountId}`, { headers }).subscribe({
+    this.http.get<any[]>(`${environment.transactionsApi}/transactions/getTransactionHistory/${this.accountId}`, { headers }).subscribe({
       next: (res) => {
         if (res.length === 0) {
           this.errorMessage = 'No transactions found for this account.';

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-create-account',
@@ -49,7 +50,7 @@ export class CreateAccountComponent {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
 
     console.log('[CreateAccountComponent] - Sending API request to create account');
-    this.http.post('http://localhost:8081/Account/createAccount', accountPayload, { headers })
+    this.http.post(`${environment.accountsApi}/Account/createAccount`, accountPayload, { headers })
       .subscribe({
         next: (response) => {
           console.log('[CreateAccountComponent] - Account created successfully:', response);

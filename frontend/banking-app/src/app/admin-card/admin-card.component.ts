@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-admin-card',
@@ -43,7 +44,7 @@ export class AdminCardComponent {
     const headers = this.getAuthHeaders();
     console.log(`[AdminCard] Fetching cards for accountId ${this.accountId}`);
 
-    this.http.get<any[]>(`http://localhost:8083/card/getCardsByAccount/${this.accountId}`, { headers }).subscribe({
+    this.http.get<any[]>(`${environment.cardsApi}/card/getCardsByAccount/${this.accountId}`, { headers }).subscribe({
       next: (res) => {
         this.cards = res;
         this.searched = true;
@@ -71,7 +72,7 @@ export class AdminCardComponent {
 
   console.log('[AdminCard] Creating card with payload:', payload);
 
-  this.http.post<any>('http://localhost:8083/card/createCard', payload, { headers }).subscribe({
+  this.http.post<any>('${environment.cardsApi}/card/createCard', payload, { headers }).subscribe({
     next: (res) => {
       console.log('[AdminCard] Card created successfully:', res);
       this.fetchCards(); // Refresh cards after creation
@@ -87,7 +88,7 @@ export class AdminCardComponent {
     const headers = this.getAuthHeaders();
     console.log(`[AdminCard] Deactivating card: ${cardId}`);
 
-    this.http.put(`http://localhost:8083/card/deactivateCard/${cardId}`, {}, { headers }).subscribe({
+    this.http.put(`${environment.cardsApi}/card/deactivateCard/${cardId}`, {}, { headers }).subscribe({
       next: (res) => {
         console.log('[AdminCard] Card deactivated:', res);
         this.fetchCards(); // Refresh cards after deactivation
