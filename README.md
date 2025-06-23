@@ -1,77 +1,103 @@
-# Microservices-Based Banking System
+# 🏦 Banking System (Microservices + Angular SSR)
 
-## Project Overview
-This is a microservices-based banking system built using **Spring Boot**. The system is designed to handle authentication, account management, transactions, and card operations using separate microservices. **JWT authentication** is implemented for security, and **Docker & Kubernetes** are used for deployment.
+A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR), dockerized and ready for production-level deployment.
 
-## Features
-- **Account Service**: User authentication, account creation, and role-based access.
-- **Cards Service**: Manages debit/credit card operations.
-- **Transaction Service**: Handles fund transfers and transaction history.
-- **API Gateway**: Centralized routing for microservices.
-- **Security**: JWT authentication with role-based authorization.
-- **Scalability**: Built for deployment with Docker and Kubernetes.
+---
 
-## Tech Stack
-- **Backend**: Java (Spring Boot)
+## 🧰 Tech Stack
+
+- **Backend**: Spring Boot (3 microservices)
+- **Frontend**: Angular 17 + SSR (Universal)
 - **Database**: MySQL
-- **Security**: JWT Authentication
-- **API Communication**: REST APIs
-- **Deployment**: Docker, Kubernetes
-- **Frontend**: Angular
-- **(Optional)** Kafka for event-driven communication
+- **Security**: Spring Security + JWT
+- **DevOps**: Docker, Docker Compose, Nginx
 
-## Microservices Architecture
-1. **Account Service** (`account-service`)
-   - Manages users and bank accounts
-   - Handles login and authentication (JWT)
-   - Role-based security (Admin/User)
-   
-2. **Cards Service** (`cards-service`)
-   - Manages card issuance, activation, and transactions
-   
-3. **Transaction Service** (`transaction-service`)
-   - Handles transactions, transfers, and transaction history
+---
 
-4. **API Gateway** (`api-gateway`)
-   - Centralized entry point for all services
-   - Routes requests to appropriate microservices
+## 🔧 Services
 
-## Installation & Setup
-### Prerequisites
-- Java 17+
-- MySQL Database
-- Docker & Kubernetes
-- Postman (for API testing)
+| Service       | Port  | Description                   |
+|---------------|-------|-------------------------------|
+| Accounts      | 8081  | User, login, accounts         |
+| Transactions  | 8082  | Money transfers               |
+| Cards         | 8083  | Card operations               |
+| Angular Front | 80    | SSR rendered frontend via Nginx |
 
-### Running Services
-1. Clone the repositories:
-   ```sh
-   git clone https://github.com/aditya9389/banking_system
-   ```
-2. Configure MySQL database in `application.properties` for each service.
-3. Run services:
-   ```sh
-   mvn spring-boot:run
-   ```
-4. Start the API Gateway:
-   ```sh
-   mvn spring-boot:run
-   ```
+All services use a **shared `bank_db`**.
 
-## API Endpoints
-- **Account Service**
-  - `POST /register` – Register a new user
-  - `POST /login` – Authenticate and get JWT
-- **Cards Service**
-  - `GET /cards/{userId}` – Fetch user’s cards
-- **Transaction Service**
-  - `POST /transfer` – Transfer funds
+---
 
-## Future Improvements
-- Implement Kafka for event-driven communication.
-- Add fraud detection mechanisms.
-- Improve logging and monitoring with ELK stack.
+## 🐳 Docker Setup
 
-## Contact
-For any queries, feel free to reach out via email or GitHub issues.
+### Step 1: Clone the repo  
+Make sure you have Docker Desktop installed.
 
+### Step 2: Run
+
+```bash
+docker compose up --build
+
+Folder Structure
+/Backend
+  ├── Accounts/
+  ├── Cards/
+  ├── Transactions/
+  └── docker-compose.yml
+
+/Frontend
+  └── banking-app/
+      ├── Dockerfile
+      └── nginx.conf
+
+🛡️ Security
+JWT-based authentication
+Roles: ADMIN and USER
+BCryptPasswordEncoder used
+CORS allowed from Angular app
+
+🔗 API Endpoints (Sample)
+POST /User/createUser
+POST /User/userLogin
+GET /Account/getUserAccounts
+POST /Transaction/sendMoney
+GET /card/getCardsByAccount/{accountId}
+
+⚙️ Nginx Config (Summary)
+Nginx proxies API routes:
+location /api/accounts/      → http://accounts:8081/
+location /api/transactions/  → http://transactions:8082/
+location /api/cards/         → http://cards:8083/
+
+SSR Angular app is served from:
+/app/dist/banking-app/browser → /usr/share/nginx/html\
+
+💡 Notable Fixes (Real Issues Faced)
+Redis refused connection → fixed profile & host config
+Angular SSR build failed → added --configuration production & fixed dist path
+MySQL "table not found" → unified DB, created bank_db only
+Nginx showed blank → corrected nginx.conf + SSR path
+Spring profile issues → set --spring.profiles.active=docker in Dockerfile
+Role ENUM error → fixed seed value ('ADMIN') + used @Enumerated(EnumType.STRING)
+
+👤 Admin User (Optional Seeding)
+You can insert manually via MySQL:
+INSERT INTO user (username, password, role, phone_number)
+VALUES ('admin', '$2a$10$abcDEF1234567890hashedPassword', 'ADMIN', '9999999999');
+Or auto-generate via @PostConstruct on startup.
+
+✅ Completed
+ Dockerized backend + frontend
+ SSR with Angular Universal
+ Shared MySQL database
+ Working login + JWT
+ Admin & user flow
+
+📦 Future Enhancements
+Deploy to Kubernetes
+Add monitoring (Prometheus + Grafana)
+Postgres option
+Admin dashboard
+
+👋 Final Note
+This project is built from scratch with full understanding of the stack — no tutorials, no templates.
+If you're reviewing this repo — yes, I can explain every single file here.
