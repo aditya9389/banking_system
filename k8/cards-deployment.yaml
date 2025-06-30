@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: accounts
+  name: cards
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: accounts
+      app: cards
   template:
     metadata:
       labels:
-        app: accounts
+        app: cards
     spec:
       containers:
-        - name: accounts
-          image: aditya9389/banking-accounts:v1.0.2
+        - name: cards
+          image: aditya9389/banking-cards:v1.0.2
           ports:
-            - containerPort: 8081
+            - containerPort: 8083
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: kubernetes

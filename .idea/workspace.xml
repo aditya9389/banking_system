@@ -4,7 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="" />
+    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Backend/Cards/src/main/resources/application-kubernetes.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Transaction/src/main/resources/application-kubernetes.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8/prometheus-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8/prometheus-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8/prometheus-service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application-kubernetes.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application-kubernetes.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Cards/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Cards/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Transaction/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Transaction/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Transaction/src/main/java/com/banking/system/Transaction/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/src/main/java/com/banking/system/Transaction/Security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/app/admin-card/admin-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/app/admin-card/admin-card.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8/accounts-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8/accounts-deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/k8/accounts-service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8/accounts-service.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,9 +74,16 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/projects/crud_app/banking_system/Backend/Transaction/src/main/resources&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\projects\crud_app\banking_system\Backend\Transaction\src\main\resources" />
+      <recent name="D:\projects\crud_app\banking_system\Backend\Cards\src\main\resources" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

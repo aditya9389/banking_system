@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/transactions/**").authenticated()
                         .anyRequest().permitAll()
                 )
@@ -48,7 +49,8 @@ public class SecurityConfig {
         // In dev or docker, these are expected frontend origins
         configuration.setAllowedOrigins(List.of(
             "http://localhost:4200", // Angular dev server
-            "http://localhost"       // Docker nginx serving Angular app
+            "http://localhost",       // Docker nginx serving Angular app
+            "http://localhost:30000" // Kubernetes nginx serving Angular app
         ));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

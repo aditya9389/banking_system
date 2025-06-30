@@ -16,4 +16,4 @@ COPY --from=builder /build/target/*.jar app.jar
 
 EXPOSE 8083
 
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=docker"]
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=kubernetes"]

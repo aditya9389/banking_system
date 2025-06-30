@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     app: accounts
-  type: NodePort
+  type: ClusterIP
   ports:
   - port: 8081
     targetPort: 8081

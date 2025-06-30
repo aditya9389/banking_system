@@ -72,7 +72,7 @@ export class AdminCardComponent {
 
   console.log('[AdminCard] Creating card with payload:', payload);
 
-  this.http.post<any>('${environment.cardsApi}/card/createCard', payload, { headers }).subscribe({
+  this.http.post<any>(`${environment.cardsApi}/card/createCard`, payload, { headers }).subscribe({
     next: (res) => {
       console.log('[AdminCard] Card created successfully:', res);
       this.fetchCards(); // Refresh cards after creation

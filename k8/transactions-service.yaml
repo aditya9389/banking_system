@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transactions
+spec:
+  selector:
+    app: transactions
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: 8082
+      nodePort: 30082  # Custom node port, consistent with your accounts setup
