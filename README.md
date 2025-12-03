@@ -1,157 +1,107 @@
-🏦 Banking System (Microservices + Angular SSR)
+# 🏦 Banking System (Microservices + Angular SSR)
 
-A full-stack banking system built using Spring Boot microservices and Angular Universal (SSR).
-The app runs in three modes: Local, Docker, and Kubernetes, depending on the active Spring profile.
+A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR). Supports local development, Docker deployment, and Kubernetes.
 
-🧰 Tech Stack
+---
 
-Backend
+## 🧰 Tech Stack
 
-Spring Boot (Accounts, Transactions, Cards)
+* **Backend**: Spring Boot (Accounts, Transactions, Cards)
+* **Frontend**: Angular 17 + SSR (Universal)
+* **Database**: MySQL
+* **Security**: Spring Security + JWT
+* **DevOps**: Docker, Docker Compose, Kubernetes, Grafana, Prometheus
 
-Spring Security + JWT
+---
 
-MySQL
+## 🔧 Services
 
-Maven
+| Service       | Port                       | Description                        |
+| ------------- | -------------------------- | ---------------------------------- |
+| Accounts      | 8081                       | User login, registration, accounts |
+| Transactions  | 8082                       | Money transfers                    |
+| Cards         | 8083                       | Card operations                    |
+| Angular Front | 4200 (local) / 80 (docker) | SSR frontend                       |
 
-Frontend
+All services use a **shared `bank_db`**.
 
-Angular 17
+---
 
-Angular Universal (SSR)
+## ▶️ Run Locally (Without Docker)
 
-DevOps
+### Requirements
 
-Docker, Docker Compose
+* Java 17+
+* Maven
+* Node 18+
+* Angular CLI
+* MySQL Server
 
-Kubernetes (optional deployment)
+### 1. Create database
 
-Prometheus + Grafana (optional monitoring)
-
-🚀 Running the Project Locally (WITHOUT Docker)
-
-This is how a new contributor should run the system the first time.
-
-1. Install Required Tools
-
-Java (17+)
-
-Maven
-
-Angular CLI
-
-Node.js
-
-MySQL Server + Workbench (or any client)
-
-2. Create the Database
-
-Open MySQL and create the required database:
-
+```
 CREATE DATABASE bank_db;
+```
 
-3. Configure MySQL Credentials
+### 2. Configure MySQL credentials
 
-Inside each microservice, the default application.yml is used for local mode (no profile set).
+Update in each service:
 
-Check the datasource section and update username/password if needed:
+```
+Backend/.../application.yml
+```
 
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/bank_db
-    username: root
-    password: your_password_here
+(Default profile is used for local dev.)
 
-4. Run Backend Services Individually
+### 3. Start backend
 
-From each service folder:
-
+```
 mvn spring-boot:run
+```
 
+### 4. Start Angular frontend
 
-Services will start on:
-
-Accounts → 8081
-
-Transactions → 8082
-
-Cards → 8083
-
-5. Run the Angular SSR App
-
-Inside /Frontend/banking-app:
-
+```
+cd Frontend/banking-app
 npm install
-npm run build:ssr
-npm run serve:ssr
+ng serve
+```
 
+For SSR:
 
-This serves the SSR frontend on http://localhost:4200
-.
+```
+npm run dev:ssr
+```
 
-🎛 Spring Profiles Explained
+---
 
-The backend uses three profiles:
+## 🧩 Profiles
 
-✔ 1. default (local)
+| Profile        | File                       | Purpose                             |
+| -------------- | -------------------------- | ----------------------------------- |
+| **default**    | application.yml            | Local development, uses local MySQL |
+| **docker**     | application-docker.yml     | Enabled automatically in Docker     |
+| **kubernetes** | application-kubernetes.yml | Used inside Kubernetes cluster      |
 
-Active when you don’t specify any profile
+No manual switch needed during Docker/K8s runs.
 
-Uses your local MySQL
+---
 
-Requires you to create bank_db manually
+## 🐳 Docker Setup
 
-Ideal for development, debugging, PR testing
+### 1. Clone repo
 
-✔ 2. docker
+Install Docker Desktop.
 
-Automatically activated from Dockerfile or docker-compose
+### 2. Run
 
-Uses service names like mysql:3306 instead of localhost
-
-No manual DB creation needed (init scripts auto-run if enabled)
-
-✔ 3. kubernetes
-
-Selected by Kubernetes manifests
-
-Points MySQL host to the Kubernetes service name
-
-Works with ConfigMaps/Secrets
-
-You don’t need to change these manually.
-Each environment selects the correct profile automatically.
-
-🐳 Running With Docker
-
-If someone wants everything to run automatically:
-
+```
 docker compose up --build
+```
 
+### Folder Structure
 
-This starts:
-
-All backend microservices
-
-MySQL container
-
-Angular SSR build
-
-Nginx reverse proxy
-
-Prometheus + Grafana (if enabled)
-
-☸ Running on Kubernetes
-
-If someone wants to test deployment:
-
-kubectl apply -f kubernetes/
-
-
-Kubernetes selects the kubernetes Spring profile automatically.
-
-📁 Project Structure (Simplified)
+```
 /Backend
    ├── Accounts/
    ├── Cards/
@@ -162,51 +112,100 @@ Kubernetes selects the kubernetes Spring profile automatically.
    └── banking-app/
         ├── Dockerfile
         └── nginx.conf
+```
 
-/Kubernetes
-   ├── deployments/
-   ├── services/
-   └── monitoring/
+---
 
-🔗 Sample API Endpoints
+## 🔗 API Endpoints (Sample)
+
+```
 POST /User/createUser
 POST /User/userLogin
 GET  /Account/getUserAccounts
 POST /Transaction/sendMoney
 GET  /card/getCardsByAccount/{accountId}
+```
 
-🔧 Fixes Implemented
+---
 
-Real development issues solved:
+## ⚙️ Nginx (Docker SSR Summary)
 
-Angular SSR build path fixed
+```
+location /api/accounts/      → http://accounts:8081/
+location /api/transactions/  → http://transactions:8082/
+location /api/cards/         → http://cards:8083/
+```
 
-MySQL table not found → unified schema
+SSR served from:
 
-Nginx blank screen → corrected SSR paths
+```
+/usr/share/nginx/html
+```
 
-Spring profile mismatch → clearly separated profiles
+---
 
-ENUM role issues → fixed with EnumType.STRING
+## ☸️ Kubernetes Setup
 
-Kubernetes manifests corrected
+K8s manifests stored in:
 
-Grafana dashboards created
+```
+/kubernetes/
+```
 
-👤 Optional Admin Seed
+Includes:
+
+* Deployments
+* Services
+* ConfigMaps
+* Secrets
+* Ingress
+* Monitoring (Prometheus + Grafana)
+
+Deploy all:
+
+```
+kubectl apply -f kubernetes/
+```
+
+---
+
+## 👤 Admin User (Optional Seeding)
+
+```
 INSERT INTO user (username, password, role, phone_number)
-VALUES ('admin', '$2a$10$someHashValue', 'ADMIN', '9999999999');
+VALUES ('admin', '<bcrypt_hash>', 'ADMIN', '9999999999');
+```
 
-🤝 Want to Contribute?
+---
+
+## ✅ Completed
+
+* Angular SSR + microservices
+* Shared MySQL
+* Dockerized backend and frontend
+* Kubernetes manifests
+* JWT auth (ADMIN + USER)
+* Full account, cards, and transactions flow
+* Prometheus + Grafana monitoring
+
+---
+
+## 📦 Future Enhancements
+
+* Better SSR caching
+* Admin dashboard
+* Optional Postgres support
+* More analytics and logs
+
+---
+
+## 🤝 Contribute
 
 Open to collaboration for:
 
-Adding Playwright/Cypress test suites
+* Playwright/Cypress test coverage
+* Improving UI/UX
+* Expanding microservice features
+* Enhanced monitoring & dashboards
 
-Improving frontend visual layout
-
-Extending API features
-
-Hardening Kubernetes setup
-
-Pull requests and issues are welcome.
+Fork, raise issues, and submit PRs.
