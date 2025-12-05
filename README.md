@@ -45,6 +45,24 @@ CREATE DATABASE bank_db;
 
 ### 2. Configure MySQL credentials
 
+## 👤 Default Admin User (Auto-Seeding Enabled)
+
+On application startup, a default **ADMIN** user is automatically created by the backend seeder (no manual SQL required).
+
+**Default Admin Credentials:**
+
+```
+Username: admin
+Password: admin123
+```
+
+**Notes:**
+
+* Password is stored using **BCrypt encryption**
+* Seeding runs only when the `users` table is empty
+* Table name used: `users` (not `user` chnaged it recently)
+* Seeding is intended for **development only**
+
 Update in each service:
 
 ```
