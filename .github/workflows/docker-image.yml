@@ -1,4 +1,4 @@
-name: Docker Compose CI (pull-and-run-only)
+name: Docker Compose CI (pull-and-run-only, override created in runner)
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   compose-run:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       COMPOSE_HTTP_TIMEOUT: 200
 
@@ -17,42 +17,56 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Log in to Docker Hub (for pulling private images)
+      - name: Log in to Docker Hub (for private images)
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Pull images from Docker Hub (no build, no push)
+      - name: Create CI override file (hard-coded image names)
         run: |
-          # Pull images referenced by your compose file. This will not build or push anything.
-          docker compose pull
+          cat > docker-compose.ci.yml <<'EOF'
+          services:
+            accounts:
+              image: aditya9389/banking-accounts:latest
+            transactions:
+              image: aditya9389/banking-transactions:latest
+            cards:
+              image: aditya9389/banking-cards:latest
+            frontend:
+              image: aditya9389/banking-frontend:latest
+          EOF
+          echo "Created docker-compose.ci.yml:"
+          sed -n '1,120p' docker-compose.ci.yml
+
+      - name: Show merged compose config (diagnostic)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml config
+
+      - name: Pull images referenced by CI override (no build)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml pull
 
       - name: Start services (no build)
         run: |
-          # --no-build ensures compose will not attempt to build local images
-          docker compose up -d --no-build
-          docker compose ps
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d --no-build
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml ps
 
       - name: Wait for services to become ready (basic loop)
         run: |
-          # Adjust service names/ports/health endpoints for your stack.
           TIMEOUT=120
-          until docker compose ps | grep -E "Up|healthy" >/dev/null 2>&1 || [ $TIMEOUT -le 0 ]; do
+          until docker compose -f docker-compose.yml -f docker-compose.ci.yml ps | grep -E "Up|healthy" >/dev/null 2>&1 || [ $TIMEOUT -le 0 ]; do
             sleep 5
             TIMEOUT=$((TIMEOUT-5))
           done
-          docker compose ps
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml ps
 
       - name: Basic smoke checks (replace with real checks)
         run: |
-          # Replace these with real endpoints for your microservices/frontend.
-          # Example:
-          # curl -sSf http://localhost:3000/health || exit 1
+          # Add concrete checks when you have endpoints.
           echo "No smoke tests configured. Add curl checks for your service endpoints."
 
       - name: Tear down (stop containers only, preserve images & volumes)
         if: always()
         run: |
-          # We intentionally do NOT remove images or volumes here to avoid changing any persisted data
-          docker compose down --remove-orphans
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml down --remove-orphans
