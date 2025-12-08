@@ -4,28 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Backend/Cards/src/main/resources/application-kubernetes.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Backend/Transaction/src/main/resources/application-kubernetes.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8/prometheus-configmap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8/prometheus-deployment.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/k8/prometheus-service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="creds">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.edit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Seeder/DataSeeder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application-kubernetes.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/resources/application-kubernetes.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Cards/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Cards/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Transaction/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Transaction/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Transaction/src/main/java/com/banking/system/Transaction/Security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Transaction/src/main/java/com/banking/system/Transaction/Security/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/banking-app/nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/banking-app/src/app/admin-card/admin-card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/banking-app/src/app/admin-card/admin-card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8/accounts-deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8/accounts-deployment.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/k8/accounts-service.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/k8/accounts-service.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Dto/CardRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Cards/src/main/java/com/banking/system/Cards/Dto/CardRequestDto.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/aditya9389/banking_system.git&quot;,
-    &quot;accountId&quot;: &quot;8df3033f-2895-4df4-a6ea-62a1f849c301&quot;
+    &quot;accountId&quot;: &quot;48510417-4a38-47ac-83fa-24b0505a26ed&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -66,18 +53,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.AccountsApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/projects/crud_app/banking_system/Backend/Transaction/src/main/resources&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AccountsApplication.executor": "Run",
+    "Application.CardsApplication.executor": "Run",
+    "Application.TransactionApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/projects/crud_app/banking_system/Backend/Transaction/src/main/resources"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\projects\crud_app\banking_system\Backend\Transaction\src\main\resources" />
@@ -93,6 +82,27 @@
       <option name="presentableId" value="Default" />
       <updated>1741800547936</updated>
     </task>
+    <task id="LOCAL-00001" summary="creds">
+      <option name="closed" value="true" />
+      <created>1764757578818</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764757578818</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="creds" />
+    <option name="LAST_COMMIT_MESSAGE" value="creds" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
