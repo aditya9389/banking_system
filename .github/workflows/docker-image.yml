@@ -1,1 +1,46 @@
 
+name: Docker Compose CI (Fresh Build)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  compose-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Start All Services (Fresh Images)
+        run: |
+          docker compose up -d --build
+          docker compose ps
+
+      - name: Wait for Services to Become Ready
+        run: |
+          echo "Waiting for containers to be ready..."
+          TIMEOUT=120
+          until docker compose ps | grep -E "Up|healthy" >/dev/null 2>&1 || [ $TIMEOUT -le 0 ]; do
+            sleep 5
+            TIMEOUT=$((TIMEOUT-5))
+          done
+          docker compose ps
+
+      - name: Smoke Check (Basic)
+        run: |
+          echo "Containers are running. Add curl checks here later."
+          # Example:
+          # curl -f http://localhost:8081/actuator/health
+
+      - name: Tear Down Containers
+        if: always()
+        run: |
+          doc
