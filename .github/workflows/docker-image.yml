@@ -43,4 +43,5 @@ jobs:
       - name: Tear Down Containers
         if: always()
         run: |
-          doc
+          docker compose down --remove-orphans -v
+
