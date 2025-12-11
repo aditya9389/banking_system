@@ -1,5 +1,5 @@
 
-name: Docker Compose CI (Fresh Build)
+name: Docker Compose CI
 
 on:
   push:
