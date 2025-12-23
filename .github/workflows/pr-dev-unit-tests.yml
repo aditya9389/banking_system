@@ -18,6 +18,9 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - name: Make mvnw executable
+        run: chmod +x mvnw
+
       - name: Run unit & service tests
         run: ./mvnw clean test
         working-directory: Backend/Accounts
