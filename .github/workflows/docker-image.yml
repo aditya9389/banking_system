@@ -1,11 +1,8 @@
-
-name: Docker Compose CI
+name: Docker Compose CI (Post-Merge Dev)
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
   compose-run:
@@ -37,11 +34,9 @@ jobs:
       - name: Smoke Check (Basic)
         run: |
           echo "Containers are running. Add curl checks here later."
-          # Example:
           # curl -f http://localhost:8081/actuator/health
 
       - name: Tear Down Containers
         if: always()
         run: |
           docker compose down --remove-orphans -v
-
