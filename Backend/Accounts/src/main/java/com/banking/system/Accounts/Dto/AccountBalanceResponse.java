@@ -8,14 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Setter
 public class AccountBalanceResponse {
-    Double amount;
+    Double balance;
     String username;
     String accountType;
 
-    public AccountBalanceResponse(Double amount, String username, String accountType)
+    public AccountBalanceResponse(Double balance, String username, String accountType)
     {
         log.info("----into accountBalanceDetailsDto-----");
-        this.amount=amount;
+        this.balance=balance;
         this.username=username;
         this.accountType=accountType;
     }

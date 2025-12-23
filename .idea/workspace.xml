@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="actions">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/docker-image.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/docker-image.yml" afterDir="false" />
+    <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="updates">
+      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/test/java/com/banking/system/Accounts/AccountServicesTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AccountBalanceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AccountBalanceResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/UserServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/UserServices.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,6 +39,9 @@
     &quot;accountId&quot;: &quot;48510417-4a38-47ac-83fa-24b0505a26ed&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 8
@@ -52,7 +59,9 @@
     "Application.AccountsApplication.executor": "Run",
     "Application.CardsApplication.executor": "Run",
     "Application.TransactionApplication.executor": "Run",
+    "JUnit.AccountServicesTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -123,7 +132,8 @@
     <MESSAGE value="creds" />
     <MESSAGE value="common changes" />
     <MESSAGE value="actions" />
-    <option name="LAST_COMMIT_MESSAGE" value="actions" />
+    <MESSAGE value="updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="updates" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
