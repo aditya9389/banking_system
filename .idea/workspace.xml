@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="00399238-320f-4eaa-a589-cdf7314c12e5" name="Changes" comment="updates">
-      <change afterPath="$PROJECT_DIR$/Backend/Accounts/src/test/java/com/banking/system/Accounts/AccountServicesTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.github/workflows/pr-dev-unit-tests.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AccountBalanceResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Dto/AccountBalanceResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/AccountServices.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/UserServices.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/Accounts/src/main/java/com/banking/system/Accounts/Services/UserServices.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/Accounts/src/test/java/com/banking/system/Accounts/AccountsApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1765188096363</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="updates">
+      <option name="closed" value="true" />
+      <created>1766488984416</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766488984416</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
