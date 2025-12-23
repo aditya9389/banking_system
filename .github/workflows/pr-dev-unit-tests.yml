@@ -20,4 +20,4 @@ jobs:
 
       - name: Run unit & service tests
         run: ./mvnw clean test
-        working-directory: backend/Accounts
+        working-directory: Backend/Accounts
