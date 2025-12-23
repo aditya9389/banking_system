@@ -20,6 +20,7 @@ jobs:
 
       - name: Make mvnw executable
         run: chmod +x mvnw
+        working-directory: Backend/Accounts
 
       - name: Run unit & service tests
         run: ./mvnw clean test
