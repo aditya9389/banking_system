@@ -59,7 +59,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend/banking-app
+      context: ./Frontend/banking-app
       dockerfile: Dockerfile
     container_name: banking-frontend
     ports:
