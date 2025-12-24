@@ -22,7 +22,6 @@ jobs:
         run: chmod +x mvnw
         working-directory: Backend/Accounts
 
-
       - name: Run unit & service tests
         run: ./mvnw clean test
         working-directory: Backend/Accounts
