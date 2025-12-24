@@ -1,0 +1,43 @@
+name: PR → QA | Regression Tests
+
+on:
+  pull_request:
+    branches: [ qa ]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Start All Services (Fresh Images)
+        run: |
+          docker compose up -d --build
+          docker compose ps
+
+      - name: Wait for Services to Become Ready
+        run: |
+          echo "Waiting for containers to be ready..."
+          TIMEOUT=120
+          until docker compose ps | grep -E "Up|healthy" >/dev/null 2>&1 || [ $TIMEOUT -le 0 ]; do
+            sleep 5
+            TIMEOUT=$((TIMEOUT-5))
+          done
+          docker compose ps
+
+      - name: Smoke Check (Basic)
+        run: |
+          echo "Containers are running."
+          curl -f http://localhost:8081/actuator/health
+          curl -f http://localhost:8082/actuator/health
+          curl -f http://localhost:8083/actuator/health
+
+      - name: Tear Down Containers
+        if: always()
+        run: |
+          docker compose down --remove-orphans -v
