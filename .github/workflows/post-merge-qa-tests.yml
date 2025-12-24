@@ -1,8 +1,8 @@
-name: Docker Compose CI (Post-Merge Dev)
+name: E2E (Post-Merge qa)
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ qa ]
 
 jobs:
   compose-run:
@@ -33,8 +33,10 @@ jobs:
 
       - name: Smoke Check (Basic)
         run: |
-          echo "Containers are running. Add curl checks here later."
-          # curl -f http://localhost:8081/actuator/health
+          echo "Containers are running."
+          curl -f http://localhost:8081/actuator/health
+          curl -f http://localhost:8082/actuator/health
+          curl -f http://localhost:8083/actuator/health
 
       - name: Tear Down Containers
         if: always()
