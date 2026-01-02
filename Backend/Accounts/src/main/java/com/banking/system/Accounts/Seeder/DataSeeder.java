@@ -9,8 +9,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -21,45 +19,41 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        seedAdminUser();
+        seedNormalUser();
+    }
 
-        if (usersAlreadyExist()) {
-            logSkip();
+    // ---------- Seed Methods ----------
+
+    private void seedAdminUser() {
+        if (userRepository.findByUsername("admin").isPresent()) {
+            log.info("Admin user already exists. Skipping admin seed.");
             return;
         }
 
-        User admin = createAdminUser();
-        User user = createNormalUser();
-
-        userRepository.saveAll(List.of(admin, user));
-
-        log.info("Default users seeded successfully.");
-    }
-
-    // ---------- Helper Methods ----------
-
-    private boolean usersAlreadyExist() {
-        return userRepository.count() > 0;
-    }
-
-    private User createAdminUser() {
         User admin = new User();
         admin.setUsername("admin");
         admin.setPassword(passwordEncoder.encode("admin123"));
         admin.setRole(Role.ADMIN);
         admin.setPhoneNumber("9999999999");
-        return admin;
+
+        userRepository.save(admin);
+        log.info("Admin user seeded.");
     }
 
-    private User createNormalUser() {
+    private void seedNormalUser() {
+        if (userRepository.findByUsername("seed_user").isPresent()) {
+            log.info("Seed user already exists. Skipping user seed.");
+            return;
+        }
+
         User user = new User();
-        user.setUsername("aditya");
-        user.setPassword(passwordEncoder.encode("123456"));
+        user.setUsername("seed_user");
+        user.setPassword(passwordEncoder.encode("user123"));
         user.setRole(Role.USER);
         user.setPhoneNumber("8888888888");
-        return user;
-    }
 
-    private void logSkip() {
-        log.warn("Users already exist. Seeding skipped.");
+        userRepository.save(user);
+        log.info("Seed user seeded.");
     }
 }
