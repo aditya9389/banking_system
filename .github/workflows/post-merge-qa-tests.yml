@@ -27,7 +27,8 @@ jobs:
           for i in {1..30}; do
             if curl -sf http://localhost:8081/actuator/health &&
                curl -sf http://localhost:8082/actuator/health &&
-               curl -sf http://localhost:8083/actuator/health; then
+               curl -sf http://localhost:8083/actuator/health &&
+               curl -f http://localhost:4200/home; then
               echo "All services are healthy"
               exit 0
             fi
@@ -54,7 +55,7 @@ jobs:
 
       - name: Run Playwright tests
         working-directory: e2e
-        run: npx playwright test
+        run: npx playwright test src/tests/ui/e2e
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4

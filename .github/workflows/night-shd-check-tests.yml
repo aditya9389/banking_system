@@ -45,7 +45,8 @@ jobs:
           for i in {1..30}; do
             if curl -sf http://localhost:8081/actuator/health &&
                curl -sf http://localhost:8082/actuator/health &&
-               curl -sf http://localhost:8083/actuator/health; then
+               curl -sf http://localhost:8083/actuator/health &&
+               curl -f http://localhost:4200/home; then
               echo "All services healthy"
               exit 0
             fi
