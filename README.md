@@ -1,6 +1,7 @@
 # 🏦 Banking System (Microservices + Angular SSR)
 
-A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR). Supports local development, Docker deployment, and Kubernetes.
+A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR).  
+Supports local development, Docker, Kubernetes, and a layered automated testing strategy.
 
 ---
 
@@ -11,6 +12,7 @@ A full-stack banking system built with Spring Boot microservices and Angular Uni
 * **Database**: MySQL
 * **Security**: Spring Security + JWT
 * **DevOps**: Docker, Docker Compose, Kubernetes, Grafana, Prometheus
+* **Testing**: Playwright (UI E2E + UI Regression)
 
 ---
 
@@ -18,19 +20,52 @@ A full-stack banking system built with Spring Boot microservices and Angular Uni
 
 | Service       | Port                       | Description                        |
 | ------------- | -------------------------- | ---------------------------------- |
-| Accounts      | 8081                       | User login, registration, accounts |
+| Accounts      | 8081                       | Users, login, accounts             |
 | Transactions  | 8082                       | Money transfers                    |
 | Cards         | 8083                       | Card operations                    |
-| Angular Front | 4200 (local) / 80 (docker) | SSR frontend                       |
+| Angular Front | 4200 (local) / 80 (docker) | Angular SSR frontend               |
 
 All services use a **shared `bank_db`**.
+
+---
+
+## 👤 Default Users (Auto-Seeding Enabled)
+
+On application startup, backend auto-seeding ensures baseline users are always available for development, QA, and automated testing.
+
+### Seeded Users
+
+**ADMIN**
+```
+
+Username: admin
+Password: admin123
+Role: ADMIN
+
+```
+
+**USER**
+```
+
+Username: seed_user
+Password: user123
+Role: USER
+
+````
+
+### Notes
+* Passwords stored using **BCrypt**
+* Seeding is **idempotent**
+* Runs in **default** and **docker** profiles
+* Disabled in **kubernetes** profile
+* Table name: `users`
+* Intended for **development & QA only**
 
 ---
 
 ## ▶️ Run Locally (Without Docker)
 
 ### Requirements
-
 * Java 17+
 * Maven
 * Node 18+
@@ -38,56 +73,35 @@ All services use a **shared `bank_db`**.
 * MySQL Server
 
 ### 1. Create database
-
-```
+```sql
 CREATE DATABASE bank_db;
-```
+````
 
-### 2. Configure MySQL credentials
+### 2. Configure MySQL
 
-## 👤 Default Admin User (Auto-Seeding Enabled)
-
-On application startup, a default **ADMIN** user is automatically created by the backend seeder (no manual SQL required).
-
-**Default Admin Credentials:**
+Update credentials in:
 
 ```
-Username: admin
-Password: admin123
+Backend/**/application.yml
 ```
-
-**Notes:**
-
-* Password is stored using **BCrypt encryption**
-* Seeding runs only when the `users` table is empty
-* Table name used: `users` (not `user` chnaged it recently)
-* Seeding is intended for **development only**
-
-Update in each service:
-
-```
-Backend/.../application.yml
-```
-
-(Default profile is used for local dev.)
 
 ### 3. Start backend
 
-```
+```bash
 mvn spring-boot:run
 ```
 
-### 4. Start Angular frontend
+### 4. Start frontend
 
-```
+```bash
 cd Frontend/banking-app
 npm install
 ng serve
 ```
 
-For SSR:
+SSR:
 
-```
+```bash
 npm run dev:ssr
 ```
 
@@ -95,41 +109,59 @@ npm run dev:ssr
 
 ## 🧩 Profiles
 
-| Profile        | File                       | Purpose                             |
-| -------------- | -------------------------- | ----------------------------------- |
-| **default**    | application.yml            | Local development, uses local MySQL |
-| **docker**     | application-docker.yml     | Enabled automatically in Docker     |
-| **kubernetes** | application-kubernetes.yml | Used inside Kubernetes cluster      |
-
-No manual switch needed during Docker/K8s runs.
+| Profile        | File                       | Purpose            |
+| -------------- | -------------------------- | ------------------ |
+| **default**    | application.yml            | Local development  |
+| **docker**     | application-docker.yml     | Docker / CI        |
+| **kubernetes** | application-kubernetes.yml | Kubernetes cluster |
 
 ---
 
 ## 🐳 Docker Setup
 
-### 1. Clone repo
-
-Install Docker Desktop.
-
-### 2. Run
-
-```
+```bash
 docker compose up --build
 ```
 
-### Folder Structure
+---
+
+## 🧪 Testing Strategy
+
+### UI Tests (Playwright)
+
+#### E2E Tests (Post-merge QA)
+
+* Critical flows only
+* No data creation
+* Fast signal
+
+Examples:
+
+* Admin login
+* User login
+* Core navigation
+* Logout
+
+#### UI Regression Tests (Pre-merge QA)
+
+* Deeper UI coverage
+* Data creation allowed
+* Fully self-contained tests
+
+Examples:
+
+* Admin create user
+* Admin create account
+* Manage cards
+* User transfer funds
+
+Folder structure:
 
 ```
-/Backend
-   ├── Accounts/
-   ├── Cards/
-   ├── Transactions/
-   └── docker-compose.yml
-
-/Frontend
-   └── banking-app/
-        ├── Dockerfile
-        └── nginx.conf
+src/tests/ui/
+ ├── e2e/
+ ├── regression/
+ └── pages/
 ```
 
 ---
@@ -146,12 +178,12 @@ GET  /card/getCardsByAccount/{accountId}
 
 ---
 
-## ⚙️ Nginx (Docker SSR Summary)
+## ⚙️ Nginx (Docker SSR)
 
 ```
 location /api/accounts/      → http://accounts:8081/
-location /api/transactions/  → http://transactions:8082/
-location /api/cards/         → http://cards:8083/
+location /api/transactions/ → http://transactions:8082/
+location /api/cards/        → http://cards:8083/
 ```
 
 SSR served from:
@@ -164,56 +196,68 @@ SSR served from:
 
 ## ☸️ Kubernetes Setup
 
-K8s manifests stored in:
+Manifests in:
 
 ```
-/kubernetes/
+/k8/
 ```
 
-Includes:
+Deploy:
 
-* Deployments
-* Services
-* ConfigMaps
-* Secrets
-* Ingress
-* Monitoring (Prometheus + Grafana)
-
-Deploy all:
-
-```
-kubectl apply -f kubernetes/
-```
-
----
-
-## 👤 Admin User (Optional Seeding)
-
-```
-INSERT INTO user (username, password, role, phone_number)
-VALUES ('admin', '<bcrypt_hash>', 'ADMIN', '9999999999');
+```bash
+kubectl apply -f k8/
 ```
 
 ---
 
 ## ✅ Completed
 
-* Angular SSR + microservices
-* Shared MySQL
-* Dockerized backend and frontend
-* Kubernetes manifests
-* JWT auth (ADMIN + USER)
-* Full account, cards, and transactions flow
+* Angular SSR + Spring Boot microservices
+* Shared MySQL database
+* Docker & Kubernetes setup
+* JWT authentication (ADMIN + USER)
+* Accounts, cards, transactions flow
 * Prometheus + Grafana monitoring
+* UI E2E and UI Regression testing
+* Deterministic backend data seeding
 
 ---
 
-## 📦 Future Enhancements
+## 📦 Future Work
 
-* Better SSR caching
-* Admin dashboard
-* Optional Postgres support
-* More analytics and logs
+### 🔹 API Testing
+
+* Add API tests for:
+
+  * Auth
+  * Users
+  * Accounts
+  * Cards
+  * Transactions
+* Cover business rules & negative scenarios
+* Integrate API tests into CI (pre-merge)
+
+### 🔹 UI Improvements (Detailed)
+
+* Refactor admin dashboard layout for clarity
+* Improve navigation consistency across admin pages
+* Replace emoji-only buttons with accessible labels/icons
+* Add loading states and skeletons for async operations
+* Standardize success and error messages
+* Improve form validation with inline feedback
+* Improve table UX (empty states, pagination, sorting)
+* Separate admin vs user visual themes
+* Reduce SSR flicker and improve hydration stability
+* Add reusable UI components (buttons, modals, alerts)
+* Improve mobile responsiveness
+
+### 🔹 Backend Improvements
+
+* Refactor service boundaries where needed
+* Improve error handling and response consistency
+* Add audit logging for transactions
+* Optimize database indexes and queries
+* Strengthen security (rate limiting, audit trails)
 
 ---
 
@@ -221,9 +265,13 @@ VALUES ('admin', '<bcrypt_hash>', 'ADMIN', '9999999999');
 
 Open to collaboration for:
 
-* Playwright/Cypress test coverage
-* Improving UI/UX
-* Expanding microservice features
-* Enhanced monitoring & dashboards
+* Playwright UI testing
+* API test coverage
+* UI/UX improvements(urjent)
+* Backend refactoring
+* Observability enhancements
 
-Fork, raise issues, and submit PRs.
+Fork the repo, raise issues, and submit PRs.
+
+```
+```
