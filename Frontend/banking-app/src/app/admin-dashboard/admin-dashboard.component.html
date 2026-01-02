@@ -3,18 +3,48 @@
   <p class="admin-subtitle">Manage the banking system efficiently.</p>
 
   <div class="admin-section">
-    <h2>🔧 Admin Actions</h2>
+    <h2>
+      <span aria-hidden="true">🔧</span>
+      <span>Admin Actions</span>
+    </h2>
+
     <div class="admin-buttons">
-      <button (click)="navigateTo('create-user')">👤 Create New User</button>
-      <button (click)="navigateTo('create-account')">🏦 Create New Account</button>
-      <button (click)="navigateTo('view-users')">👁️ View Users</button>
-      <button (click)="navigateTo('view-accounts')">📂 View Accounts</button>
-      <button (click)="navigateTo('admin-card')">💳 Manage Cards</button>
-      <button (click)="navigateTo('admin-transaction')">📊 View Transactions</button>
+      <button (click)="navigateTo('create-user')">
+        <span aria-hidden="true">👤</span>
+        <span>Create New User</span>
+      </button>
+
+      <button (click)="navigateTo('create-account')">
+        <span aria-hidden="true">🏦</span>
+        <span>Create New Account</span>
+      </button>
+
+      <button (click)="navigateTo('view-users')">
+        <span aria-hidden="true">👁️</span>
+        <span>View Users</span>
+      </button>
+
+      <button (click)="navigateTo('view-accounts')">
+        <span aria-hidden="true">📂</span>
+        <span>View Accounts</span>
+      </button>
+
+      <button (click)="navigateTo('admin-card')">
+        <span aria-hidden="true">💳</span>
+        <span>Manage Cards</span>
+      </button>
+
+      <button (click)="navigateTo('admin-transaction')">
+        <span aria-hidden="true">📊</span>
+        <span>View Transactions</span>
+      </button>
     </div>
   </div>
 
   <div class="admin-section logout">
-    <button (click)="logout()" class="logout-button">🚪 Logout</button>
+    <button (click)="logout()" class="logout-button">
+      <span aria-hidden="true">🚪</span>
+      <span>Logout</span>
+    </button>
   </div>
 </div>
