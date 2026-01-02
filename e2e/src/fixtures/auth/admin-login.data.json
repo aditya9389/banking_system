@@ -1,0 +1,34 @@
+{
+  "adminLoginScenarios": [
+    {
+      "scenario": "Valid admin credentials",
+      "username": "admin",
+      "password": "admin123",
+      "expected": "success"
+    },
+    {
+      "scenario": "Invalid username with valid password",
+      "username": "fakeAdmin",
+      "password": "admin123",
+      "expected": "error"
+    },
+    {
+      "scenario": "Valid username with invalid password",
+      "username": "admin",
+      "password": "wrongPassword",
+      "expected": "error"
+    },
+    {
+      "scenario": "Invalid username and invalid password",
+      "username": "fakeAdmin",
+      "password": "wrongPassword",
+      "expected": "error"
+    },
+    {
+      "scenario": "Empty username and password",
+      "username": "",
+      "password": "",
+      "expected": "error"
+    }
+  ]
+}
