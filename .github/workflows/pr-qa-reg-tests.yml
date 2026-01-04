@@ -45,16 +45,16 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Install E2E dependencies
-        working-directory: e2e
+      - name: Install playwright-tests dependencies
+        working-directory: playwright-tests
         run: npm ci
 
       - name: Install Playwright Browsers
-        working-directory: e2e
+        working-directory: playwright-tests
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        working-directory: e2e
+        working-directory: playwright-tests
         run: npx playwright test src/tests/ui/regression
 
       - name: Upload Playwright report
@@ -62,7 +62,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
-          path: e2e/playwright-report/
+          path: playwright-tests/playwright-report/
           retention-days: 30
 
       - name: Tear Down Containers
