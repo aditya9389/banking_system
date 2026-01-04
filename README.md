@@ -1,7 +1,7 @@
 # 🏦 Banking System (Microservices + Angular SSR)
 
-A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR).  
-Supports local development, Docker, Kubernetes, and a layered automated testing strategy.
+A full-stack banking system built with Spring Boot microservices and Angular Universal (SSR).
+Designed with a **Docker-first workflow**, optional Kubernetes deployment, and **deterministic automated testing**.
 
 ---
 
@@ -11,61 +11,89 @@ Supports local development, Docker, Kubernetes, and a layered automated testing 
 * **Frontend**: Angular 17 + SSR (Universal)
 * **Database**: MySQL
 * **Security**: Spring Security + JWT
-* **DevOps**: Docker, Docker Compose, Kubernetes, Grafana, Prometheus
-* **Testing**: Playwright (UI E2E + UI Regression)
+* **DevOps**: Docker, Docker Compose, Kubernetes
+* **Observability**: Prometheus, Grafana
+* **Testing**: Playwright (API + UI)
 
 ---
 
 ## 🔧 Services
 
-| Service       | Port                       | Description                        |
-| ------------- | -------------------------- | ---------------------------------- |
-| Accounts      | 8081                       | Users, login, accounts             |
-| Transactions  | 8082                       | Money transfers                    |
-| Cards         | 8083                       | Card operations                    |
-| Angular Front | 4200 (local) / 80 (docker) | Angular SSR frontend               |
+| Service       | Port (Docker / CI) | Description           |
+| ------------- | ------------------ | --------------------- |
+| Accounts      | 8081               | Users, auth, accounts |
+| Transactions  | 8082               | Money transactions    |
+| Cards         | 8083               | Card management       |
+| Angular Front | 4200               | Angular SSR frontend  |
 
-All services use a **shared `bank_db`**.
+All services use a shared **`bank_db`**.
+
+---
+
+## 🏗️ Architecture Overview
+
+### Docker (Primary Runtime)
+
+* Services run as containers
+* Ports are **explicitly exposed**
+* Services accessible via:
+
+  * `localhost:<port>` (host / CI / Playwright)
+  * `service-name:<port>` (container-to-container)
+* Used by:
+
+  * Local development
+  * CI pipelines
+  * All automated tests
+
+### Kubernetes (Deployment Target)
+
+* Services are **not exposed by default**
+* Access only via **Ingress / Gateway**
+* No direct `localhost:<port>` access
+* Currently used for deployment and infra validation only
+
+> **Note**: Automated tests are not executed against Kubernetes.
 
 ---
 
 ## 👤 Default Users (Auto-Seeding Enabled)
 
-On application startup, backend auto-seeding ensures baseline users are always available for development, QA, and automated testing.
+On application startup, backend auto-seeding ensures baseline users for development, QA, and testing.
 
 ### Seeded Users
 
 **ADMIN**
-```
 
+```
 Username: admin
 Password: admin123
 Role: ADMIN
-
 ```
 
 **USER**
-```
 
+```
 Username: seed_user
 Password: user123
 Role: USER
-
-````
+```
 
 ### Notes
+
 * Passwords stored using **BCrypt**
 * Seeding is **idempotent**
-* Runs in **default** and **docker** profiles
+* Enabled in **default** and **docker** profiles
 * Disabled in **kubernetes** profile
-* Table name: `users`
-* Intended for **development & QA only**
+* Table: `users`
+* Accounts, cards, and transactions are **not seeded**
 
 ---
 
 ## ▶️ Run Locally (Without Docker)
 
 ### Requirements
+
 * Java 17+
 * Maven
 * Node 18+
@@ -73,9 +101,10 @@ Role: USER
 * MySQL Server
 
 ### 1. Create database
+
 ```sql
 CREATE DATABASE bank_db;
-````
+```
 
 ### 2. Configure MySQL
 
@@ -113,7 +142,7 @@ npm run dev:ssr
 | -------------- | -------------------------- | ------------------ |
 | **default**    | application.yml            | Local development  |
 | **docker**     | application-docker.yml     | Docker / CI        |
-| **kubernetes** | application-kubernetes.yml | Kubernetes cluster |
+| **kubernetes** | application-kubernetes.yml | Kubernetes runtime |
 
 ---
 
@@ -127,13 +156,35 @@ docker compose up --build
 
 ## 🧪 Testing Strategy
 
+### API Tests (Playwright)
+
+* Implemented using **Playwright APIRequestContext**
+* No browser installation required
+* Docker-based execution
+* Fully deterministic:
+
+  * Tests create required users/accounts/cards explicitly
+  * No reliance on pre-existing DB state
+* Executed in CI (post-merge)
+
+Folder structure:
+
+```
+src/tests/api/
+ ├── core/        # auth, api client, env
+ ├── accounts/
+ ├── transfer/
+ ├── cards/
+ └── transactions/
+```
+
 ### UI Tests (Playwright)
 
-#### E2E Tests (Post-merge QA)
+#### E2E Tests (Post-merge)
 
-* Critical flows only
+* Critical user flows
 * No data creation
-* Fast signal
+* Fast validation
 
 Examples:
 
@@ -142,18 +193,18 @@ Examples:
 * Core navigation
 * Logout
 
-#### UI Regression Tests (Pre-merge QA)
+#### UI Regression Tests (Pre-merge)
 
 * Deeper UI coverage
 * Data creation allowed
-* Fully self-contained tests
+* Fully self-contained
 
 Examples:
 
 * Admin create user
 * Admin create account
 * Manage cards
-* User transfer funds
+* User money transfer
 
 Folder structure:
 
@@ -166,14 +217,47 @@ src/tests/ui/
 
 ---
 
-## 🔗 API Endpoints (Sample)
+## 🔗 API Endpoints (Current)
+
+### Auth & Users (Accounts Service)
 
 ```
-POST /User/createUser
-POST /User/userLogin
-GET  /Account/getUserAccounts
-POST /Transaction/sendMoney
-GET  /card/getCardsByAccount/{accountId}
+POST   /User/userLogin
+POST   /User/createUser        (ADMIN)
+GET    /User/getUsers          (ADMIN)
+GET    /User/getUser/{username}
+DELETE /User/deleteUser/{username} (ADMIN)
+```
+
+### Accounts
+
+```
+POST   /Account/createAccount          (ADMIN)
+GET    /Account/getMyAccounts
+GET    /Account/getUserAccounts/{username} (ADMIN)
+GET    /Account/getMyAccountBalance/{accountId}
+GET    /Account/getUserAccountBalance/{accountId} (ADMIN)
+POST   /Account/transferFunds
+DELETE /Account/deleteAccount/{accountId} (ADMIN)
+```
+
+### Cards
+
+```
+POST   /card/createCard
+GET    /card/getCardsByUsername/{username}
+GET    /card/getCardsByAccount/{accountId}
+PUT    /card/deactivateCard/{cardId}
+DELETE /card/deleteAllCards/{accountId}
+```
+
+### Transactions
+
+```
+GET    /transactions/from/{accountId}
+GET    /transactions/to/{accountId}
+GET    /transactions/getTransactionHistory/{accountId}
+POST   /transactions/saveTransaction
 ```
 
 ---
@@ -181,9 +265,9 @@ GET  /card/getCardsByAccount/{accountId}
 ## ⚙️ Nginx (Docker SSR)
 
 ```
-location /api/accounts/      → http://accounts:8081/
-location /api/transactions/ → http://transactions:8082/
-location /api/cards/        → http://cards:8083/
+/api/accounts/      → http://accounts:8081/
+/api/transactions/ → http://transactions:8082/
+/api/cards/        → http://cards:8083/
 ```
 
 SSR served from:
@@ -194,9 +278,9 @@ SSR served from:
 
 ---
 
-## ☸️ Kubernetes Setup
+## ☸️ Kubernetes
 
-Manifests in:
+Manifests:
 
 ```
 /k8/
@@ -208,70 +292,72 @@ Deploy:
 kubectl apply -f k8/
 ```
 
+### Notes
+
+* Kubernetes currently has **no automated tests**
+* API and UI tests target **Docker runtime only**
+* Kubernetes is used for deployment and infra validation
+
 ---
 
 ## ✅ Completed
 
 * Angular SSR + Spring Boot microservices
 * Shared MySQL database
-* Docker & Kubernetes setup
+* Docker-first CI workflow
 * JWT authentication (ADMIN + USER)
 * Accounts, cards, transactions flow
 * Prometheus + Grafana monitoring
-* UI E2E and UI Regression testing
-* Deterministic backend data seeding
+* Deterministic backend seeding
+* Playwright API testing
+* Playwright UI E2E & regression testing
 
 ---
 
 ## 📦 Future Work
 
-### 🔹 API Testing
+### 🔹 Negative Testing
 
-* Add API tests for:
+* API negative scenarios:
 
-  * Auth
-  * Users
-  * Accounts
-  * Cards
-  * Transactions
-* Cover business rules & negative scenarios
-* Integrate API tests into CI (pre-merge)
+  * 401 / 403 authorization checks
+  * Invalid payloads
+  * Insufficient balance transfers
+* UI negative flows:
 
-### 🔹 UI Improvements (Detailed)
+  * Validation errors
+  * Unauthorized access
+  * Edge-case handling
 
-* Refactor admin dashboard layout for clarity
-* Improve navigation consistency across admin pages
-* Replace emoji-only buttons with accessible labels/icons
-* Add loading states and skeletons for async operations
-* Standardize success and error messages
-* Improve form validation with inline feedback
-* Improve table UX (empty states, pagination, sorting)
-* Separate admin vs user visual themes
-* Reduce SSR flicker and improve hydration stability
-* Add reusable UI components (buttons, modals, alerts)
-* Improve mobile responsiveness
+### 🔹 UI Improvements
+
+* Admin dashboard layout cleanup
+* Consistent navigation & feedback
+* Replace emoji-only buttons with accessible icons
+* Loading states & skeletons
+* Improved form validation
+* Better table UX (pagination, sorting)
+* Separate admin vs user themes
+* Improved SSR hydration stability
+* Mobile responsiveness
 
 ### 🔹 Backend Improvements
 
-* Refactor service boundaries where needed
-* Improve error handling and response consistency
-* Add audit logging for transactions
-* Optimize database indexes and queries
-* Strengthen security (rate limiting, audit trails)
+* Standardized API responses
+* Global error handling
+* Audit logging for transactions
+* DB index optimization
+* Rate limiting & security hardening
 
 ---
 
 ## 🤝 Contribute
 
-Open to collaboration for:
+Open to collaboration on:
 
-* Playwright UI testing
-* API test coverage
-* UI/UX improvements(urjent)
+* Playwright API & UI testing
+* UI/UX improvements
 * Backend refactoring
 * Observability enhancements
 
 Fork the repo, raise issues, and submit PRs.
-
-```
-```
