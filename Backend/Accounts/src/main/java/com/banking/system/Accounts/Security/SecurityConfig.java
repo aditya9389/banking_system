@@ -38,14 +38,15 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/User/userLogin", "/User/createUser","/actuator/**").permitAll()
+                .requestMatchers("/User/userLogin","/actuator/**").permitAll()
                 .requestMatchers(
                     "/Account/createAccount",
                     "/User/getUsers",
                     "/Account/getUserAccounts",
                     "/Account/getUserAccountBalance",
                     "/Account/deleteAccount",
-                    "/User/deleteUser"
+                    "/User/deleteUser",
+                    "/User/createUser"
                 ).hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
             )
