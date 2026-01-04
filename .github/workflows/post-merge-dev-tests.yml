@@ -53,7 +53,7 @@ jobs:
 
       - name: Run Playwright tests
         working-directory: playwright-tests
-        run: npx playwright test src/tests/ui/api
+        run: npx playwright test src/tests/api
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
