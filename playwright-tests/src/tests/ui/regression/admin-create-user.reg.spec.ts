@@ -4,7 +4,7 @@ import users from '../../../fixtures/auth/users.json';
 import { LoginPage } from '../pages/common-pages/login.page';
 import { AdminDashboardPage } from '../pages/admin-pages/admin-dashboard.page';
 import { CreateUserPage } from '../pages/admin-pages/create-user.page';
-import { UniqueDataUtil } from '../../../utils/unique-data.util';
+import { UniqueDataUtil } from '../utils/unique-data.util';
 
 test.describe('REG | Admin Create User', () => {
   test('admin can create a new user', async ({ page }) => {
