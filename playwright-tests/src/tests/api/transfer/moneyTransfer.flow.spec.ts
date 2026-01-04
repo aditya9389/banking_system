@@ -12,29 +12,32 @@ test.beforeAll(async () => {
   const adminToken = await getAdminToken();
   const adminApi = await createApiContext(ENV.ACCOUNTS_BASE_URL, adminToken);
 
-  // fetch existing accounts for seed_user
-  const accountsRes = await adminApi.get(
-    `/Account/getUserAccounts/seed_user`
+  // ADMIN: fetch existing accounts
+  const res = await adminApi.get(
+    TransferEndpoints.GET_USER_ACCOUNTS_ADMIN('seed_user')
   );
-  expect(accountsRes.ok()).toBeTruthy();
+  expect(res.ok()).toBeTruthy();
 
-  const existingAccounts = (await accountsRes.json()).accounts ?? [];
+  const accounts = (await res.json()).accounts ?? [];
 
-  // create accounts if fewer than 2
-  while (existingAccounts.length < 2) {
-    const createRes = await adminApi.post('/Account/createAccount', {
-      data: {
-        username: 'seed_user',
-        balance: 1000,
-        accountType: 'SAVINGS',
-      },
-    });
+  // Ensure at least 2 accounts
+  while (accounts.length < 2) {
+    const createRes = await adminApi.post(
+      TransferEndpoints.CREATE_ACCOUNT,
+      {
+        data: {
+          username: 'seed_user',
+          balance: 1000,
+          accountType: 'SAVINGS',
+        },
+      }
+    );
     expect(createRes.ok()).toBeTruthy();
-    existingAccounts.push(await createRes.json());
+    accounts.push(await createRes.json());
   }
 
-  fromAccountId = existingAccounts[0].id;
-  toAccountId = existingAccounts[1].id;
+  fromAccountId = accounts[0].id;
+  toAccountId = accounts[1].id;
 });
 
 test('Money transfer works end-to-end', async () => {
@@ -44,19 +47,26 @@ test('Money transfer works end-to-end', async () => {
   const beforeRes = await api.get(
     TransferEndpoints.GET_MY_BALANCE(fromAccountId)
   );
+
+  if (beforeRes.status() === 403) {
+    throw new Error(
+      'USER forbidden from reading balance – wrong endpoint or ownership issue'
+    );
+  }
+
   expect(beforeRes.ok()).toBeTruthy();
+  const beforeBalance = (await beforeRes.json()).balance;
 
-  const beforeText = await beforeRes.text();
-  expect(beforeText.length).toBeGreaterThan(0);
-  const beforeBalance = JSON.parse(beforeText).balance;
-
-  const transferRes = await api.post(TransferEndpoints.TRANSFER_FUNDS, {
-    data: {
-      fromAccountId,
-      toAccountId,
-      amount: TransferTestData.AMOUNT,
-    },
-  });
+  const transferRes = await api.post(
+    TransferEndpoints.TRANSFER_FUNDS,
+    {
+      data: {
+        fromAccountId,
+        toAccountId,
+        amount: TransferTestData.AMOUNT,
+      },
+    }
+  );
   expect(transferRes.ok()).toBeTruthy();
 
   const afterRes = await api.get(
@@ -64,9 +74,6 @@ test('Money transfer works end-to-end', async () => {
   );
   expect(afterRes.ok()).toBeTruthy();
 
-  const afterText = await afterRes.text();
-  expect(afterText.length).toBeGreaterThan(0);
-  const afterBalance = JSON.parse(afterText).balance;
-
+  const afterBalance = (await afterRes.json()).balance;
   expect(afterBalance).toBe(beforeBalance - TransferTestData.AMOUNT);
 });
