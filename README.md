@@ -316,6 +316,159 @@ kubectl apply -f k8/
 
 ## 📦 Future Work
 
+### Priority Roadmap
+
+| Priority | Task | Impact | Status |
+|----------|------|--------|--------|
+| 🔴 NOW | Remove hardcoded DB password | Security breach prevention | ⏳ Planned |
+| 🔴 NOW | Add `.env` file pattern | Deployment flexibility | ⏳ Planned |
+| 🟡 SOON | Add SSR build scripts | Frontend completeness | ⏳ Planned |
+| 🟡 SOON | Multi-stage Docker builds | Reduce image size 60-70% | ⏳ Planned |
+| 🟡 SOON | Health checks | Production readiness | ⏳ Planned |
+| 🟢 LATER | Swagger/OpenAPI | Better DX | ⏳ Planned |
+
+---
+
+### 🔴 Critical: Security & Configuration
+
+#### Remove Hardcoded Credentials
+* **Why**: Credentials exposed in public GitHub repo = security breach risk
+* **Current Issue**: `docker-compose.yml` contains `MYSQL_ROOT_PASSWORD: Adii@9389`
+* **Solution**: Use `.env` file with environment variables
+* **Example**:
+  ```yaml
+  # docker-compose.yml (updated)
+  environment:
+    MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    MYSQL_DATABASE: ${DB_NAME}
+  ```
+
+#### Add `.env` File Pattern
+* **Why**: Different environments need different configurations
+* **Create** `.env.example`:
+  ```env
+  # Database
+  DB_ROOT_PASSWORD=change_me_in_production
+  DB_NAME=bank_db
+  
+  # JWT
+  JWT_SECRET=your_jwt_secret_key_here
+  
+  # API Configuration
+  API_BASE_URL=http://localhost:4200
+  SPRING_PROFILES_ACTIVE=docker
+  ```
+* **Usage**: `docker compose --env-file .env up`
+
+---
+
+### 🟡 High Priority: Production Readiness
+
+#### Add SSR Build Scripts
+* **Why**: Complete Angular Universal implementation
+* **Impact**: Better SEO, faster first-page load, server-side rendering
+* **Add to** `Frontend/banking-app/package.json`:
+  ```json
+  {
+    "scripts": {
+      "build": "ng build --configuration production",
+      "build:ssr": "ng build && ng run banking-app:server",
+      "dev:ssr": "ng serve --open",
+      "serve:ssr": "node dist/banking-app/server/main.js",
+      "test": "ng test",
+      "lint": "ng lint"
+    }
+  }
+  ```
+
+#### Multi-Stage Docker Builds
+* **Why**: Reduce image size, faster CI/CD pipelines
+* **Impact**: 60-70% smaller images, quicker deployments
+* **Example for** `Backend/Accounts/Dockerfile`:
+  ```dockerfile
+  # Stage 1: Build
+  FROM maven:3.9-eclipse-temurin-17 AS builder
+  WORKDIR /app
+  COPY . .
+  RUN mvn clean package -DskipTests
+  
+  # Stage 2: Runtime
+  FROM eclipse-temurin:17-jre-alpine
+  WORKDIR /app
+  COPY --from=builder /app/target/accounts.jar app.jar
+  EXPOSE 8081
+  ENTRYPOINT ["java", "-jar", "app.jar"]
+  ```
+* **Apply to**: All backend services (Accounts, Cards, Transactions)
+
+#### Health Checks for Services
+* **Why**: Better orchestration and deployment reliability
+* **Add to** `docker-compose.yml`:
+  ```yaml
+  services:
+    accounts:
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+        start_period: 40s
+    
+    transactions:
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8082/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+    
+    cards:
+      healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+  ```
+
+---
+
+### 🟢 Enhancement: Developer Experience
+
+#### Swagger/OpenAPI Documentation
+* **Why**: Interactive API docs, live testing, no guessing
+* **Impact**: Faster onboarding, better developer experience, automatic schema validation
+* **Add to all** `pom.xml` files (Accounts, Cards, Transactions):
+  ```xml
+  <dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.2.0</version>
+  </dependency>
+  ```
+* **Access**:
+  ```
+  http://localhost:8081/swagger-ui.html  → Accounts Service
+  http://localhost:8082/swagger-ui.html  → Transactions Service
+  http://localhost:8083/swagger-ui.html  → Cards Service
+  ```
+* **Annotations Example**:
+  ```java
+  @PostMapping("/userLogin")
+  @Operation(summary = "User Login", description = "Authenticate user with credentials")
+  @ApiResponse(responseCode = "200", description = "Login successful")
+  @ApiResponse(responseCode = "401", description = "Invalid credentials")
+  public ResponseEntity<AuthResponse> userLogin(@RequestBody LoginCred loginCred) {
+    return ResponseEntity.ok(userServices.userLogin(loginCred));
+  }
+  ```
+* **Benefits**:
+  - ✅ Auto-generated, always in sync with code
+  - ✅ Live endpoint testing without Postman
+  - ✅ Example requests/responses
+  - ✅ Error code documentation
+  - ✅ JWT authentication support
+
+---
+
 ### 🔹 Negative Testing
 
 * API negative scenarios:
@@ -359,5 +512,7 @@ Open to collaboration on:
 * UI/UX improvements
 * Backend refactoring
 * Observability enhancements
+* Security hardening
+* API documentation (Swagger/OpenAPI)
 
 Fork the repo, raise issues, and submit PRs.
